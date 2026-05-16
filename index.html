@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMG Menús</title>
+    <title>AMG Menús - Imágenes completas</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300..700&display=swap" rel="stylesheet">
@@ -104,7 +104,13 @@
 
         .brand-header{display:grid;grid-template-columns:80px 1fr;align-items:center;
                       border-bottom:1px solid var(--border)}
-        .brand-thumb{width:80px;height:80px;object-fit:cover;flex-shrink:0}
+        
+        /* 🔧 Cambio principal: las imágenes se ven completas */
+        .brand-thumb{width:80px;height:80px;object-fit:contain;  /* antes: cover */
+                     background-color:var(--surface-2);          /* fondo para áreas vacías */
+                     padding:var(--space-2);                     /* pequeño respiro */
+                     flex-shrink:0}
+        
         .brand-meta{padding:var(--space-4) var(--space-5)}
         .brand-name{font-family:var(--font-display);font-size:var(--text-lg);font-weight:400;
                     color:var(--text);line-height:1.2}
@@ -337,4 +343,3 @@
     </script>
 </body>
 </html>
-
