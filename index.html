@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>AMG Menús · Link Index</title>
+<title>AMG Menús</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400&display=swap" rel="stylesheet">
@@ -16,26 +16,18 @@
   --bone:#efefef;
   --soot:#3a3a3a;
   --ash:#747474;
-
-  --font-mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
-  --font-inter:'Inter',ui-sans-serif,system-ui,-apple-system,sans-serif;
-
-  --r-tag:2.8px;
-  --r-card:8px;
+  --font:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --r:2.8px;
   --ease:cubic-bezier(.16,1,.3,1);
 }
-
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-
-html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth;background:var(--black)}
+html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;background:var(--black)}
 body{
-  font-family:var(--font-mono);
-  font-size:14px;
-  line-height:1.5;
-  color:var(--bone);
-  background:var(--black);
+  font-family:var(--font);
+  font-size:14px;line-height:1.4;
+  color:var(--bone);background:var(--black);
   min-height:100dvh;
-  letter-spacing:-0.02em;
+  letter-spacing:-0.01em;
 }
 a{text-decoration:none;color:inherit}
 button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
@@ -43,497 +35,340 @@ img{display:block;max-width:100%}
 ::selection{background:var(--ember);color:var(--black)}
 :focus-visible{outline:1px solid var(--ember);outline-offset:2px}
 
-/* ══ TICKER ══ */
-.ticker{
+/* ══ HEADER ══ */
+.header{
+  position:sticky;top:0;z-index:50;
+  background:rgba(18,18,18,.94);
+  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);
   border-bottom:1px solid var(--chalk);
-  overflow:hidden;
-  height:34px;
-  display:flex;align-items:center;
-  position:relative;z-index:20;
 }
-.ticker__track{
-  display:flex;gap:32px;white-space:nowrap;
-  animation:ticker 40s linear infinite;
-  padding-left:32px;
-  font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--bone);
+.header__inner{
+  max-width:1000px;margin:0 auto;
+  padding:14px 20px;
+  display:flex;align-items:center;gap:20px;
 }
-.ticker__track span{display:inline-flex;align-items:center;gap:32px}
-.ticker__track span::after{
-  content:'';width:0;height:0;
-  border-left:4px solid transparent;border-right:4px solid transparent;
-  border-top:6px solid var(--ash);display:inline-block;
-}
-@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-
-/* ══ SHELL ══ */
-.shell{
-  display:grid;
-  grid-template-columns:240px 1fr;
-  max-width:1440px;
-  margin:0 auto;
-  min-height:calc(100dvh - 34px);
-  transition:grid-template-columns .35s var(--ease);
-}
-.shell.collapsed{grid-template-columns:64px 1fr}
-
-/* ══ SIDEBAR ══ */
-.sidebar{
-  border-right:1px solid var(--chalk);
-  padding:24px 20px;
-  display:flex;flex-direction:column;gap:28px;
-  position:sticky;top:0;align-self:start;
-  height:calc(100dvh - 34px);
-  overflow-y:auto;overflow-x:hidden;
-  transition:padding .35s var(--ease);
-}
-.shell.collapsed .sidebar{padding:24px 12px}
-
 .logo{
-  font-family:var(--font-mono);font-weight:700;
-  font-size:18px;line-height:1.05;letter-spacing:-0.01em;
+  font-family:var(--font);font-weight:700;
+  font-size:15px;letter-spacing:.02em;
   color:var(--ember);text-transform:uppercase;
-  white-space:nowrap;overflow:hidden;
+  white-space:nowrap;
+  flex-shrink:0;
 }
-.logo span{display:block}
 .logo small{
   display:block;font-size:9px;font-weight:400;
   letter-spacing:.14em;color:var(--ash);
-  margin-top:6px;white-space:nowrap;
-}
-.shell.collapsed .logo span:not(:first-child),
-.shell.collapsed .logo small{display:none}
-.shell.collapsed .logo{text-align:center}
-
-.sidebar__toggle{
-  align-self:flex-end;
-  width:26px;height:26px;
-  display:grid;place-items:center;
-  border:1px solid var(--chalk);
-  border-radius:var(--r-tag);
-  color:var(--bone);
-  font-size:10px;
-  transition:border-color .2s var(--ease),color .2s var(--ease);
-  margin-top:-6px;
-}
-.sidebar__toggle:hover{border-color:var(--ember);color:var(--ember)}
-.shell.collapsed .sidebar__toggle{align-self:center;margin-top:0}
-
-.nav-group{display:flex;flex-direction:column;gap:6px}
-.nav-group__head{
-  display:flex;align-items:center;gap:6px;
-  font-size:11px;font-weight:700;letter-spacing:.06em;
-  text-transform:uppercase;color:var(--bone);
-  margin-bottom:6px;white-space:nowrap;
-}
-.nav-group__head::before{
-  content:'';width:6px;height:6px;
-  border-left:1.5px solid var(--bone);border-bottom:1.5px solid var(--bone);
-  align-self:flex-end;margin-bottom:1px;flex-shrink:0;
-}
-.shell.collapsed .nav-group__head span{display:none}
-
-.nav-tag{
-  display:flex;align-items:center;justify-content:space-between;gap:8px;
-  padding:9px 10px;
-  background:var(--bone);color:var(--black);
-  border-radius:var(--r-tag);
-  font-size:12px;letter-spacing:.04em;text-transform:uppercase;line-height:1;
-  transition:background .2s var(--ease);
-}
-.nav-tag:hover{background:var(--ember)}
-.nav-tag i{font-size:11px;flex-shrink:0}
-.nav-tag__count{font-size:10px;color:var(--ash)}
-.shell.collapsed .nav-tag{justify-content:center;padding:9px 6px}
-.shell.collapsed .nav-tag span:not(.nav-tag__count),
-.shell.collapsed .nav-tag__count{display:none}
-
-.nav-ghost{
-  display:flex;align-items:center;gap:8px;
-  padding:9px 10px;
-  border:1px solid var(--chalk);
-  border-radius:var(--r-tag);
-  font-size:12px;letter-spacing:.04em;text-transform:uppercase;
-  color:var(--bone);
-  transition:border-color .2s var(--ease),color .2s var(--ease);
-}
-.nav-ghost:hover{border-color:var(--ember);color:var(--ember)}
-.nav-ghost i{font-size:11px;flex-shrink:0}
-.shell.collapsed .nav-ghost{justify-content:center;padding:9px 6px}
-.shell.collapsed .nav-ghost span{display:none}
-
-.sidebar__footer{
-  margin-top:auto;padding-top:20px;
-  border-top:1px solid var(--soot);
-  font-size:10px;letter-spacing:.06em;text-transform:uppercase;
-  color:var(--ash);line-height:1.7;
-  white-space:nowrap;overflow:hidden;
-}
-.sidebar__footer a{color:var(--ash);transition:color .2s var(--ease)}
-.sidebar__footer a:hover{color:var(--bone)}
-.shell.collapsed .sidebar__footer{display:none}
-
-@media(max-width:820px){
-  .shell{grid-template-columns:1fr}
-  .shell.collapsed{grid-template-columns:1fr}
-  .sidebar{
-    position:static;height:auto;
-    border-right:none;border-bottom:1px solid var(--chalk);
-    padding:20px;
-  }
-  .shell.collapsed .sidebar{padding:20px}
-  .shell.collapsed .logo span:not(:first-child),
-  .shell.collapsed .logo small{display:block}
-  .shell.collapsed .logo{text-align:left}
-  .shell.collapsed .nav-group__head span,
-  .shell.collapsed .nav-tag span:not(.nav-tag__count),
-  .shell.collapsed .nav-tag__count,
-  .shell.collapsed .nav-ghost span,
-  .shell.collapsed .sidebar__footer{display:revert}
-  .shell.collapsed .nav-tag,
-  .shell.collapsed .nav-ghost{justify-content:space-between;padding:9px 10px}
-  .shell.collapsed .nav-ghost{justify-content:flex-start}
-  .sidebar__toggle{display:none}
+  margin-top:2px;
 }
 
-/* ══ MAIN ══ */
-.main{padding:40px 40px 100px;min-width:0}
-@media(max-width:820px){.main{padding:32px 20px 80px}}
-
-/* ══ HERO ══ */
-.hero{
-  padding-bottom:40px;
-  border-bottom:1px solid var(--chalk);
-  margin-bottom:32px;
-}
-.hero__label{
-  font-size:12px;letter-spacing:.06em;text-transform:uppercase;
-  color:var(--ash);margin-bottom:20px;
-}
-.hero__label b{color:var(--bone);font-weight:400}
-
-.hero__title{
-  font-family:var(--font-mono);font-weight:700;
-  font-size:clamp(40px,8vw,104px);
-  line-height:.95;letter-spacing:-0.02em;
-  color:var(--bone);text-transform:uppercase;
-  margin-bottom:20px;
-}
-.hero__title em{font-style:normal;color:var(--ember)}
-
-.hero__foot{
-  display:flex;flex-wrap:wrap;gap:10px 28px;align-items:baseline;
-  font-size:12px;letter-spacing:.06em;text-transform:uppercase;
-  color:var(--ash);
-}
-.hero__foot strong{color:var(--bone);font-weight:400}
-.hero__foot .dot{
-  display:inline-block;width:6px;height:6px;
-  background:var(--ember);margin-right:8px;vertical-align:middle;
-}
-
-/* ══ SEARCH ══ */
 .search{
-  margin-bottom:32px;
-  position:relative;
-}
-.search__label{
-  display:flex;align-items:baseline;justify-content:space-between;
-  gap:12px;flex-wrap:wrap;
-  font-size:11px;letter-spacing:.06em;text-transform:uppercase;
-  color:var(--ash);margin-bottom:10px;
-}
-.search__label kbd{
-  font-family:var(--font-mono);
-  font-size:10px;letter-spacing:.04em;
-  padding:2px 6px;
-  border:1px solid var(--soot);
-  border-radius:var(--r-tag);
-  color:var(--ash);
-}
-.search__field{
-  display:flex;align-items:center;gap:12px;
-  padding:0 16px;
+  flex:1;min-width:0;
+  display:flex;align-items:center;gap:10px;
+  padding:0 14px;
   border:1px solid var(--chalk);
-  border-radius:var(--r-tag);
-  background:var(--black);
+  border-radius:var(--r);
   transition:border-color .2s var(--ease);
 }
-.search__field:focus-within{border-color:var(--ember)}
-.search__field i.fa-magnifying-glass{
-  color:var(--ash);font-size:13px;flex-shrink:0;
-}
-.search__field:focus-within i.fa-magnifying-glass{color:var(--ember)}
-.search__field input{
+.search:focus-within{border-color:var(--ember)}
+.search i.fa-magnifying-glass{color:var(--ash);font-size:12px;flex-shrink:0}
+.search:focus-within i.fa-magnifying-glass{color:var(--ember)}
+.search input{
   flex:1;min-width:0;
-  padding:15px 0;
+  padding:11px 0;
   background:transparent;border:none;outline:none;
   color:var(--bone);
-  font-family:var(--font-mono);
-  font-size:15px;
-  letter-spacing:-0.01em;
+  font-family:var(--font);
+  font-size:13px;
+  letter-spacing:0;
 }
-.search__field input::placeholder{color:var(--ash)}
+.search input::placeholder{color:var(--ash)}
 .search__clear{
-  color:var(--ash);font-size:13px;
-  padding:6px;
+  color:var(--ash);font-size:12px;padding:4px;
   transition:color .2s var(--ease);
   display:none;
 }
 .search__clear.visible{display:block}
 .search__clear:hover{color:var(--ember)}
 
-.search__hint{
-  display:flex;flex-wrap:wrap;gap:8px;
-  margin-top:12px;
+@media(max-width:640px){
+  .header__inner{
+    flex-wrap:wrap;
+    padding:12px 16px;
+    gap:12px;
+  }
+  .search{order:2;flex-basis:100%}
+}
+
+/* ══ MAIN ══ */
+.main{
+  max-width:1000px;margin:0 auto;
+  padding:20px 20px 80px;
+}
+@media(max-width:640px){.main{padding:16px 16px 60px}}
+
+/* ══ HINTS ══ */
+.hints{
+  display:flex;flex-wrap:wrap;gap:6px;
+  margin-bottom:16px;
   font-size:11px;letter-spacing:.04em;text-transform:uppercase;
+  align-items:center;
   color:var(--ash);
 }
-.search__hint button{
+.hints__label{color:var(--ash);margin-right:4px}
+.hints button{
   padding:5px 10px;
   border:1px solid var(--soot);
-  border-radius:var(--r-tag);
+  border-radius:var(--r);
   color:var(--ash);
   font-size:10px;letter-spacing:.04em;text-transform:uppercase;
   transition:border-color .2s var(--ease),color .2s var(--ease);
 }
-.search__hint button:hover{border-color:var(--ember);color:var(--ember)}
+.hints button:hover{border-color:var(--ember);color:var(--ember)}
 
-/* ══ RESULTS ══ */
-.section-head{
+/* ══ META ══ */
+.meta{
   display:flex;align-items:baseline;justify-content:space-between;
-  flex-wrap:wrap;gap:12px;
-  padding-bottom:12px;
+  gap:12px;flex-wrap:wrap;
+  padding-bottom:10px;margin-bottom:4px;
+  font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ash);
   border-bottom:1px solid var(--chalk);
-  margin-bottom:16px;
-  font-size:12px;letter-spacing:.06em;text-transform:uppercase;
 }
-.section-head__title{color:var(--bone)}
-.section-head__meta{color:var(--ash)}
+.meta b{color:var(--bone);font-weight:400}
 
-.results{display:flex;flex-direction:column}
+/* ══ LIST ══ */
+.list{display:flex;flex-direction:column}
 
-.result{
+.row{
   display:grid;
-  grid-template-columns:64px 1fr;
+  grid-template-columns:52px 1fr auto;
   gap:16px;
-  padding:20px 0;
+  align-items:center;
+  padding:14px 0;
   border-bottom:1px solid var(--chalk);
-  transition:background .2s var(--ease);
+  transition:background .15s var(--ease);
 }
-.result:hover{background:rgba(255,77,0,.03)}
+.row:hover{background:rgba(255,77,0,.03)}
 
-.result__img{
-  width:64px;height:64px;
+.row__img{
+  width:52px;height:52px;
   border:1px solid var(--chalk);
-  border-radius:var(--r-tag);
+  border-radius:var(--r);
   overflow:hidden;
-  background:var(--black);
   display:grid;place-items:center;
+  background:var(--black);
   flex-shrink:0;
 }
-.result__img img{width:100%;height:100%;object-fit:cover}
-.result__img i{color:var(--ash);font-size:22px}
+.row__img img{width:100%;height:100%;object-fit:cover}
+.row__img i{color:var(--ash);font-size:18px}
 
-.result__body{min-width:0}
+.row__body{min-width:0}
 
-.result__top{
+.row__title{
   display:flex;flex-wrap:wrap;align-items:baseline;
-  gap:8px 12px;margin-bottom:6px;
+  gap:6px 10px;
+  margin-bottom:3px;
 }
-.result__name{
-  font-family:var(--font-mono);font-weight:700;
-  font-size:clamp(20px,2.6vw,28px);
-  line-height:1.05;letter-spacing:-0.01em;
+.row__name{
+  font-family:var(--font);font-weight:700;
+  font-size:16px;line-height:1.2;
+  letter-spacing:-0.01em;
   color:var(--bone);text-transform:uppercase;
   word-break:break-word;
 }
-.result__name mark{
+.row__name mark,
+.row__branch mark{
   background:var(--ember);color:var(--black);
   padding:0 3px;
 }
-
-.result__loc{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:3px 8px;
+.row__branch{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:2px 7px;
   border:1px solid var(--chalk);
-  border-radius:var(--r-tag);
+  border-radius:var(--r);
   font-size:10px;letter-spacing:.04em;text-transform:uppercase;
   color:var(--bone);
 }
-.result__loc i{font-size:9px;color:var(--ember)}
-.result__loc mark{background:var(--ember);color:var(--black);padding:0 2px}
+.row__branch i{font-size:8px;color:var(--ember)}
 
-.result__meta{
-  display:flex;flex-wrap:wrap;gap:6px 14px;
+.row__sub{
   font-size:11px;letter-spacing:.04em;text-transform:uppercase;
   color:var(--ash);
-  margin-bottom:12px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
-.result__meta span{display:inline-flex;align-items:center;gap:6px}
-.result__meta i{font-size:9px}
+.row__sub i{font-size:9px;margin-right:4px}
 
-.result__rail{
-  display:flex;flex-wrap:wrap;gap:6px;
+.row__actions{
+  display:flex;gap:6px;flex-wrap:wrap;
+  justify-content:flex-end;
 }
 
 .act{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:8px 12px;
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 11px;
   border:1px solid var(--chalk);
-  border-radius:var(--r-tag);
-  font-family:var(--font-mono);
+  border-radius:var(--r);
+  font-family:var(--font);
   font-size:11px;letter-spacing:.04em;text-transform:uppercase;
   color:var(--bone);background:transparent;
-  transition:border-color .2s var(--ease),color .2s var(--ease),background .2s var(--ease);
+  transition:border-color .15s var(--ease),color .15s var(--ease),background .15s var(--ease);
   line-height:1;
+  white-space:nowrap;
 }
 .act i{font-size:10px}
 .act:hover{border-color:var(--ember);color:var(--ember)}
 .act--accent{border-color:var(--ember);color:var(--ember)}
 .act--accent:hover{background:rgba(255,77,0,.08)}
 
-.empty-state{
-  padding:48px 0;
+@media(max-width:640px){
+  .row{grid-template-columns:44px 1fr;gap:12px;padding:12px 0}
+  .row__img{width:44px;height:44px}
+  .row__actions{grid-column:1 / -1;justify-content:flex-start;margin-top:4px}
+  .row__name{font-size:14px}
+}
+
+/* ══ EMPTY ══ */
+.empty{
+  padding:56px 0;
   text-align:center;
   color:var(--ash);
-  font-size:13px;
-  letter-spacing:.04em;text-transform:uppercase;
+  font-size:12px;letter-spacing:.04em;text-transform:uppercase;
 }
-.empty-state i{
-  display:block;font-size:28px;
-  margin-bottom:14px;color:var(--soot);
-}
-
-/* ══ HIDDEN ADMIN ══ */
-.admin{
-  display:none;
-  padding:16px;
-  border:1px solid var(--chalk);
-  border-radius:var(--r-card);
-  margin-bottom:24px;
-}
-.admin.visible{display:block}
-.admin__head{
-  display:flex;align-items:center;justify-content:space-between;
-  padding-bottom:12px;margin-bottom:14px;
-  border-bottom:1px solid var(--soot);
-  font-size:11px;letter-spacing:.06em;text-transform:uppercase;
-  color:var(--ash);
-}
-.admin__form{
-  display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;
-}
-@media(max-width:640px){.admin__form{grid-template-columns:1fr}}
-.admin input{
-  width:100%;padding:10px 12px;
-  background:transparent;border:1px solid var(--chalk);
-  border-radius:var(--r-tag);
-  color:var(--bone);
-  font-family:var(--font-mono);font-size:13px;
-  outline:none;
-  transition:border-color .2s var(--ease);
-}
-.admin input::placeholder{color:var(--ash)}
-.admin input:focus{border-color:var(--ember)}
-.admin__actions{display:flex;gap:8px}
-
-#admin-trigger{
-  position:fixed;bottom:0;left:0;
-  width:32px;height:32px;
-  background:transparent;
-  cursor:default;z-index:30;
+.empty i{
+  display:block;font-size:24px;
+  margin-bottom:12px;color:var(--soot);
 }
 
 /* ══ FOOTER ══ */
-.page-footer{
-  margin-top:48px;padding-top:20px;
+.footer{
+  max-width:1000px;margin:0 auto;
+  padding:20px;
+  display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;
+  font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ash);
   border-top:1px solid var(--chalk);
-  display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;
+}
+
+/* ══ ADMIN (oculto) ══ */
+#admin-trigger{
+  position:fixed;bottom:0;left:0;
+  width:28px;height:28px;
+  background:transparent;cursor:default;z-index:40;
+}
+
+.admin{
+  display:none;
+  padding:14px;
+  border:1px solid var(--chalk);
+  border-radius:var(--r);
+  margin-bottom:16px;
+}
+.admin.visible{display:block}
+.admin__head{
+  display:flex;justify-content:space-between;
+  padding-bottom:10px;margin-bottom:12px;
+  border-bottom:1px solid var(--soot);
   font-size:10px;letter-spacing:.06em;text-transform:uppercase;
   color:var(--ash);
 }
+.admin__form{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;
+}
+@media(max-width:640px){.admin__form{grid-template-columns:1fr}}
+.admin input{
+  padding:9px 11px;
+  background:transparent;border:1px solid var(--chalk);
+  border-radius:var(--r);
+  color:var(--bone);font-family:var(--font);font-size:12px;
+  outline:none;transition:border-color .15s var(--ease);
+}
+.admin input::placeholder{color:var(--ash)}
+.admin input:focus{border-color:var(--ember)}
+.admin__actions{display:flex;gap:6px}
 
 /* ══ MODAL ══ */
 .modal{
   position:fixed;inset:0;z-index:200;
   display:flex;align-items:center;justify-content:center;
-  padding:20px;
+  padding:16px;
   background:rgba(18,18,18,.94);
+  -webkit-backdrop-filter:blur(8px);
+  backdrop-filter:blur(8px);
   opacity:0;visibility:hidden;
-  transition:opacity .25s var(--ease),visibility .25s var(--ease);
+  transition:opacity .2s var(--ease),visibility .2s var(--ease);
 }
 .modal.active{opacity:1;visibility:visible}
 .modal__panel{
-  width:min(600px,100%);
-  max-height:82vh;
+  width:min(560px,100%);
+  max-height:84vh;
   display:flex;flex-direction:column;
   border:1px solid var(--chalk);
-  border-radius:var(--r-card);
+  border-radius:var(--r);
   background:var(--black);
   overflow:hidden;
-  transform:translateY(8px);
-  transition:transform .25s var(--ease);
+  transform:translateY(6px);
+  transition:transform .2s var(--ease);
 }
 .modal.active .modal__panel{transform:translateY(0)}
 .modal__head{
   display:flex;align-items:center;justify-content:space-between;
-  gap:12px;padding:14px 18px;
+  gap:12px;padding:12px 16px;
   border-bottom:1px solid var(--chalk);
-  font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+  font-size:11px;letter-spacing:.06em;text-transform:uppercase;
 }
 .modal__head b{font-weight:700;color:var(--bone)}
 .modal__close{
-  width:26px;height:26px;
+  width:24px;height:24px;
   display:grid;place-items:center;
   border:1px solid var(--chalk);
-  border-radius:var(--r-tag);
-  color:var(--bone);font-size:11px;
-  transition:border-color .2s var(--ease),color .2s var(--ease);
+  border-radius:var(--r);
+  color:var(--bone);font-size:10px;
+  transition:border-color .15s var(--ease),color .15s var(--ease);
 }
 .modal__close:hover{border-color:var(--ember);color:var(--ember)}
-.modal__body{padding:18px;overflow-y:auto}
+.modal__body{padding:14px 16px;overflow-y:auto}
 .modal__body::-webkit-scrollbar{width:6px}
 .modal__body::-webkit-scrollbar-thumb{background:var(--soot)}
 
-.cat{margin-bottom:20px}
+.cat{margin-bottom:16px}
 .cat:last-child{margin-bottom:0}
 .cat__head{
   display:flex;align-items:center;gap:8px;
-  padding-bottom:10px;margin-bottom:10px;
+  padding-bottom:8px;margin-bottom:8px;
   border-bottom:1px solid var(--soot);
   font-size:11px;letter-spacing:.06em;text-transform:uppercase;
   color:var(--bone);
 }
 .cat__head i{color:var(--ember);font-size:11px}
 
-.row-link{
+.link{
   display:flex;align-items:center;justify-content:space-between;
-  gap:12px;padding:10px 12px;
+  gap:10px;padding:9px 11px;
   border:1px solid var(--chalk);
-  border-radius:var(--r-tag);
-  margin-bottom:6px;
-  font-size:12px;letter-spacing:.01em;
+  border-radius:var(--r);
+  margin-bottom:5px;
+  font-size:12px;
   color:var(--bone);
-  transition:border-color .2s var(--ease),color .2s var(--ease);
+  transition:border-color .15s var(--ease),color .15s var(--ease);
 }
-.row-link:last-child{margin-bottom:0}
-.row-link:hover{border-color:var(--ember);color:var(--ember)}
-.row-link__b{
-  display:flex;align-items:center;gap:8px;
+.link:last-child{margin-bottom:0}
+.link:hover{border-color:var(--ember);color:var(--ember)}
+.link__b{
+  display:flex;align-items:center;gap:7px;
   text-transform:uppercase;letter-spacing:.04em;font-size:11px;
 }
-.row-link__b i{font-size:9px;color:var(--ash)}
-.row-link:hover .row-link__b i{color:var(--ember)}
-.row-link__go{
+.link__b i{font-size:9px;color:var(--ash)}
+.link:hover .link__b i{color:var(--ember)}
+.link__go{
   font-size:10px;letter-spacing:.06em;text-transform:uppercase;
   color:var(--ash);
 }
-.row-link:hover .row-link__go{color:var(--ember)}
+.link:hover .link__go{color:var(--ember)}
 
-.empty{
-  padding:10px 12px;
+.no-data{
+  padding:9px 11px;
   border:1px dashed var(--soot);
-  border-radius:var(--r-tag);
+  border-radius:var(--r);
   font-size:11px;letter-spacing:.04em;text-transform:uppercase;
   color:var(--ash);
 }
@@ -541,152 +376,62 @@ img{display:block;max-width:100%}
 </head>
 <body>
 
-<!-- ══ TICKER ══ -->
-<div class="ticker" aria-hidden="true">
-  <div class="ticker__track">
-    <span>AMG HOSPITALITY GROUP</span>
-    <span>BUSCA: MARCA + SUCURSAL</span>
-    <span>UBER EATS · RAPPI · DIDI</span>
-    <span>EJ: CHUBBIES ROMA</span>
-    <span>AMG HOSPITALITY GROUP</span>
-    <span>BUSCA: MARCA + SUCURSAL</span>
-    <span>UBER EATS · RAPPI · DIDI</span>
-    <span>EJ: CHUBBIES ROMA</span>
+<!-- ══ HEADER ══ -->
+<header class="header">
+  <div class="header__inner">
+    <a href="#" class="logo">AMG<small>Hospitality Group</small></a>
+    <div class="search">
+      <i class="fas fa-magnifying-glass"></i>
+      <input type="text" id="search-input" placeholder="Buscar marca o sucursal… (ej: Chubbies Roma)" autocomplete="off" spellcheck="false">
+      <button class="search__clear" id="search-clear" aria-label="Limpiar"><i class="fas fa-times"></i></button>
+    </div>
   </div>
-</div>
+</header>
 
-<!-- ══ SHELL ══ -->
-<div class="shell" id="shell">
+<!-- ══ MAIN ══ -->
+<main class="main">
 
-  <!-- ─── SIDEBAR ─── -->
-  <aside class="sidebar">
-    <button class="sidebar__toggle" id="sidebar-toggle" aria-label="Minimizar menú">
-      <i class="fas fa-angle-left" id="toggle-icon"></i>
-    </button>
-
-    <div>
-      <div class="logo">
-        <span>AMG</span>
-        <span>MENÚS</span>
-        <small>HOSPITALITY GROUP</small>
-      </div>
+  <!-- ADMIN (oculto) -->
+  <section class="admin" id="admin-panel">
+    <div class="admin__head">
+      <span>Agregar enlace</span>
+      <span>ADMIN</span>
     </div>
-
-    <nav class="nav-group">
-      <div class="nav-group__head"><span>Índice</span></div>
-      <a href="#search-section" class="nav-tag" title="Buscar">
-        <i class="fas fa-magnifying-glass"></i>
-        <span>Buscar</span>
-      </a>
-      <a href="#results" class="nav-tag" title="Marcas">
-        <i class="fas fa-utensils"></i>
-        <span>Marcas</span>
-        <span class="nav-tag__count">06</span>
-      </a>
-      <a href="#contacto" class="nav-tag" title="Contacto">
-        <i class="fas fa-envelope"></i>
-        <span>Contacto</span>
-      </a>
-    </nav>
-
-    <div class="nav-group">
-      <div class="nav-group__head"><span>Atajos</span></div>
-      <button class="nav-ghost" data-fill="Chubbies Roma" title="Chubbies Roma">
-        <i class="fas fa-bolt"></i>
-        <span>Chubbies Roma</span>
-      </button>
-      <button class="nav-ghost" data-fill="Muy Gallito" title="Muy Gallito">
-        <i class="fas fa-bolt"></i>
-        <span>Muy Gallito</span>
-      </button>
-      <button class="nav-ghost" data-fill="Palermo" title="Palermo">
-        <i class="fas fa-bolt"></i>
-        <span>Palermo</span>
-      </button>
+    <div class="admin__form">
+      <input type="text" id="link-title" placeholder="Nombre de la marca">
+      <input type="url" id="link-url" placeholder="https://...">
     </div>
-
-    <div class="sidebar__footer">
-      MMXXV · CDMX<br>
-      <a href="#contacto">hola@amg.mx</a>
+    <div class="admin__actions">
+      <button class="act act--accent" id="add-link-btn"><i class="fas fa-plus"></i>Agregar</button>
+      <button class="act" id="reset-links-btn"><i class="fas fa-redo"></i>Reiniciar</button>
     </div>
-  </aside>
+  </section>
 
-  <!-- ─── MAIN ─── -->
-  <main class="main">
+  <!-- HINTS -->
+  <div class="hints" id="hints">
+    <span class="hints__label">Prueba:</span>
+    <button data-fill="Chubbies Roma">Chubbies Roma</button>
+    <button data-fill="Polanco">Polanco</button>
+    <button data-fill="Uber">Uber</button>
+    <button data-fill="Muy Gallito">Muy Gallito</button>
+  </div>
 
-    <!-- HERO -->
-    <section class="hero">
-      <div class="hero__label">AMG HOSPITALITY GROUP — <b>INDEX / 01</b></div>
-      <h1 class="hero__title">Busca<br><em>y pide</em></h1>
-      <div class="hero__foot">
-        <span><span class="dot"></span><strong>Marca + sucursal</strong> en un solo campo</span>
-        <span>06 marcas</span>
-        <span>03 apps</span>
-      </div>
-    </section>
+  <!-- META -->
+  <div class="meta" id="meta">
+    <span>ÍNDICE · <b id="meta-count">06</b> MARCAS</span>
+    <span id="meta-label">Todas las marcas</span>
+  </div>
 
-    <!-- SEARCH -->
-    <section class="search" id="search-section">
-      <div class="search__label">
-        <span>BUSCAR MARCA O SUCURSAL</span>
-        <kbd>/</kbd>
-      </div>
-      <div class="search__field">
-        <i class="fas fa-magnifying-glass"></i>
-        <input
-          type="text"
-          id="search-input"
-          placeholder="Ej: Chubbies Roma, Muy Gallito Polanco, Tiin Thai..."
-          autocomplete="off"
-          spellcheck="false"
-        >
-        <button class="search__clear" id="search-clear" aria-label="Limpiar">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class="search__hint">
-        <button data-fill="Chubbies">Chubbies</button>
-        <button data-fill="Roma">Roma</button>
-        <button data-fill="Polanco">Polanco</button>
-        <button data-fill="Satélite">Satélite</button>
-        <button data-fill="Uber">Uber</button>
-      </div>
-    </section>
+  <!-- LISTA -->
+  <div class="list" id="list"></div>
 
-    <!-- ADMIN (oculto) -->
-    <section class="admin" id="admin-panel">
-      <div class="admin__head">
-        <span>Agregar enlace</span>
-        <span>ADMIN</span>
-      </div>
-      <div class="admin__form">
-        <input type="text" id="link-title" placeholder="Nombre de la marca">
-        <input type="url" id="link-url" placeholder="https://...">
-      </div>
-      <div class="admin__actions">
-        <button class="act act--accent" id="add-link-btn"><i class="fas fa-plus"></i>Agregar</button>
-        <button class="act" id="reset-links-btn"><i class="fas fa-redo"></i>Reiniciar</button>
-      </div>
-    </section>
+</main>
 
-    <!-- RESULTS -->
-    <section id="results">
-      <div class="section-head">
-        <span class="section-head__title" id="results-title">/ ÍNDICE COMPLETO</span>
-        <span class="section-head__meta" id="results-meta">—</span>
-      </div>
-      <div class="results" id="results-container"></div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="page-footer" id="contacto">
-      <span>© AMG HOSPITALITY GROUP — MMXXV</span>
-      <span>MÉXICO · CDMX</span>
-      <span>LINK INDEX / V2.0</span>
-    </footer>
-
-  </main>
-</div>
+<!-- ══ FOOTER ══ -->
+<footer class="footer">
+  <span>© AMG HOSPITALITY GROUP — MMXXV</span>
+  <span>MÉXICO · CDMX</span>
+</footer>
 
 <button id="admin-trigger" aria-label="Admin"></button>
 
@@ -704,7 +449,7 @@ img{display:block;max-width:100%}
 <script>
 (function(){
   /* ══════════════════════════════════════════════════════
-     DATOS DELIVERY
+     DATOS
      ══════════════════════════════════════════════════════ */
   const deliveryData = {
     "Chubbies Burger": {
@@ -757,269 +502,238 @@ img{display:block;max-width:100%}
       {branch:"herradura", url:"https://www.ubereats.com/mx/store/muy-gallito-fried-chicken-herradura/w1EQ2UcKUhq2FwbZpxs0ww?diningMode=DELIVERY"}
     ]},
     "Fat Bastard": {
-      rappi: [{branch:"Roma Norte", url:"https://www.rappi.com.mx/restaurantes/1930251016-fat-bastard"}],
-      uber: [{branch:"Roma Norte", url:"https://www.ubereats.com/mx/store/fat-bastard-roma-norte/STKDt5BSV7uU_DOM0PbWBQ?diningMode=DELIVERY"}]
+      rappi: [{branch:"roma norte", url:"https://www.rappi.com.mx/restaurantes/1930251016-fat-bastard"}],
+      uber: [{branch:"roma norte", url:"https://www.ubereats.com/mx/store/fat-bastard-roma-norte/STKDt5BSV7uU_DOM0PbWBQ?diningMode=DELIVERY"}]
     },
     "Brass monkey": {
       rappi: [],
-      uber: [{branch:"Roma Sur", url:"https://www.ubereats.com/mx-en/store/brass-monkey-roma-sur/lptpii0rVw-yBJ_Z4egrrQ?diningMode=DELIVERY"}]
+      uber: [{branch:"roma sur", url:"https://www.ubereats.com/mx-en/store/brass-monkey-roma-sur/lptpii0rVw-yBJ_Z4egrrQ?diningMode=DELIVERY"}]
     },
     "Palermo": {
-      rappi: [{branch:"Anzures", url:"https://www.rappi.com.mx/restaurantes/1930290995-palermo-empanadas-argentinas"}],
-      uber: [{branch:"Anzures", url:"https://www.ubereats.com/mx/store/palermo-empanadas-argentinas/FphmISDWUyGHcuJWMxOftw?diningMode=DELIVERY"}]
+      rappi: [{branch:"anzures", url:"https://www.rappi.com.mx/restaurantes/1930290995-palermo-empanadas-argentinas"}],
+      uber: [{branch:"anzures", url:"https://www.ubereats.com/mx/store/palermo-empanadas-argentinas/FphmISDWUyGHcuJWMxOftw?diningMode=DELIVERY"}]
     },
     "Tiin Thai": {
-      rappi: [{branch:"Anzures", url:"https://www.rappi.com.mx/restaurantes/1930234375-tiin-thai"}],
-      uber: [{branch:"Anzures", url:"https://www.ubereats.com/mx/store/tiin-thai/3FH5oqSnXWCu8tkySoyzAQ?diningMode=DELIVERY"}]
+      rappi: [{branch:"anzures", url:"https://www.rappi.com.mx/restaurantes/1930234375-tiin-thai"}],
+      uber: [{branch:"anzures", url:"https://www.ubereats.com/mx/store/tiin-thai/3FH5oqSnXWCu8tkySoyzAQ?diningMode=DELIVERY"}]
     }
   };
 
-  /* ══════════════════════════════════════════════════════
-     MARCAS
-     ══════════════════════════════════════════════════════ */
   const DEFAULT = [
-    {name:"Chubbies Burger",category:"Burgers · Fast Casual", menuUrl:"http://pide.chubbiesburger.mx/", instaUrl:"https://www.instagram.com/chubbies_burger?igsh=bnZlODF4a2txMWl4", thumb:"https://i.postimg.cc/zDt9P1cF/IMG-4348.webp", handle:"@chubbies_burger"},
-    {name:"Muy Gallito",category:"Pollo · Street Food", menuUrl:"https://order.foodbot.ai/muygallito/", instaUrl:"https://www.instagram.com/muygallitomx?igsh=ZDczbHZtM2IxOG1w", thumb:"https://i.postimg.cc/JndPKRzz/IMG-4351.webp", handle:"@muygallitomx"},
-    {name:"Fat Bastard",category:"Comfort Food · Clásicos", menuUrl:"https://order.foodbot.ai/fatbastard/", instaUrl:"https://www.instagram.com/eatfatbastard?igsh=MTNqejNtaWkzdmVwdg==", thumb:"https://i.postimg.cc/TwyHzKSp/IMG-4350.webp", handle:"@eatfatbastard"},
-    {name:"Brass monkey",category:"Pizza · Artesanal", menuUrl:"https://order.foodbot.ai/brassmonkey/", instaUrl:"https://www.instagram.com/brassmonkeypizza?igsh=dXZtOXA0cWQ3ajg2", thumb:"https://i.postimg.cc/J4QKd30C/IMG-4349.webp", handle:"@brassmonkeypizza"},
-    {name:"Tiin Thai",category:"Thai · Fusión Asiática", menuUrl:"https://order.foodbot.ai/tiinthai/", instaUrl:"https://www.instagram.com/tiinthai?igsh=MWF4dXEzd3E0bG92", thumb:"https://i.postimg.cc/mDxQrhky/IMG-4352.webp", handle:"@tiinthai"},
-    {name:"Palermo",category:"Empanadas · Argentino", menuUrl:"https://order.foodbot.ai/palermo/", instaUrl:"https://www.instagram.com/palermoempanadasmx?igsh=MWFnMXdpNnRkY3lwdA==", thumb:"https://i.postimg.cc/Z54DpzpQ/IMG-4339.jpg", handle:"@palermoempanadasmx"}
+    {name:"Chubbies Burger", category:"Burgers · Fast Casual", menuUrl:"http://pide.chubbiesburger.mx/", instaUrl:"https://www.instagram.com/chubbies_burger", thumb:"https://i.postimg.cc/zDt9P1cF/IMG-4348.webp", handle:"@chubbies_burger"},
+    {name:"Muy Gallito", category:"Pollo · Street Food", menuUrl:"https://order.foodbot.ai/muygallito/", instaUrl:"https://www.instagram.com/muygallitomx", thumb:"https://i.postimg.cc/JndPKRzz/IMG-4351.webp", handle:"@muygallitomx"},
+    {name:"Fat Bastard", category:"Comfort Food · Clásicos", menuUrl:"https://order.foodbot.ai/fatbastard/", instaUrl:"https://www.instagram.com/eatfatbastard", thumb:"https://i.postimg.cc/TwyHzKSp/IMG-4350.webp", handle:"@eatfatbastard"},
+    {name:"Brass Monkey", category:"Pizza · Artesanal", menuUrl:"https://order.foodbot.ai/brassmonkey/", instaUrl:"https://www.instagram.com/brassmonkeypizza", thumb:"https://i.postimg.cc/J4QKd30C/IMG-4349.webp", handle:"@brassmonkeypizza"},
+    {name:"Tiin Thai", category:"Thai · Fusión Asiática", menuUrl:"https://order.foodbot.ai/tiinthai/", instaUrl:"https://www.instagram.com/tiinthai", thumb:"https://i.postimg.cc/mDxQrhky/IMG-4352.webp", handle:"@tiinthai"},
+    {name:"Palermo", category:"Empanadas · Argentino", menuUrl:"https://order.foodbot.ai/palermo/", instaUrl:"https://www.instagram.com/palermoempanadasmx", thumb:"https://i.postimg.cc/Z54DpzpQ/IMG-4339.jpg", handle:"@palermoempanadasmx"}
   ];
 
   let brands = JSON.parse(JSON.stringify(DEFAULT));
 
   /* ══════════════════════════════════════════════════════
-     UTILIDADES
+     UTILS
      ══════════════════════════════════════════════════════ */
-  const norm = s => (s || '')
-    .toString()
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .trim();
+  const norm = s => (s||'').toString().toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
 
-  const escapeHTML = s => String(s || '').replace(/[&<>"']/g, c => ({
+  const esc = s => String(s||'').replace(/[&<>"']/g, c => ({
     '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
   }[c]));
 
   function highlight(text, terms){
-    const raw = escapeHTML(text);
+    const raw = esc(text);
     if (!terms.length) return raw;
     const pattern = terms
-      .filter(t => t.length > 1)
-      .map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+      .filter(t => t.length >= 2)
+      .map(t => t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'))
       .join('|');
     if (!pattern) return raw;
-    return raw.replace(new RegExp(`(${pattern})`, 'gi'), '<mark>$1</mark>');
+    return raw.replace(new RegExp(`(${pattern})`,'gi'), '<mark>$1</mark>');
   }
 
   /* ══════════════════════════════════════════════════════
-     CONSTRUIR ÍNDICE PLANO (marca + sucursal + app)
+     CONSTRUIR ÍNDICE PLANO
      ══════════════════════════════════════════════════════ */
   function buildIndex(){
     const rows = [];
     brands.forEach(b => {
       const data = deliveryData[b.name] || {rappi:[], uber:[]};
-      const locs = new Map(); // branch -> {uber, rappi}
-
-      (data.uber || []).forEach(u => {
-        const key = norm(u.branch);
-        if (!locs.has(key)) locs.set(key, {branch: u.branch, uber: null, rappi: null});
-        locs.get(key).uber = u.url;
+      const locs = new Map();
+      (data.uber||[]).forEach(u => {
+        const k = norm(u.branch);
+        if (!locs.has(k)) locs.set(k, {branch: u.branch, uber:null, rappi:null});
+        locs.get(k).uber = u.url;
       });
-      (data.rappi || []).forEach(r => {
-        const key = norm(r.branch);
-        if (!locs.has(key)) locs.set(key, {branch: r.branch, uber: null, rappi: null});
-        locs.get(key).rappi = r.url;
+      (data.rappi||[]).forEach(r => {
+        const k = norm(r.branch);
+        if (!locs.has(k)) locs.set(k, {branch: r.branch, uber:null, rappi:null});
+        locs.get(k).rappi = r.url;
       });
+      const locations = [...locs.values()];
 
-      // Entrada marca (menú directo) siempre presente
+      // Row "marca"
       rows.push({
         type: 'brand',
         brand: b,
-        brandName: b.name,
-        category: b.category || '',
         branch: '',
         uber: null,
         rappi: null,
-        haystack: [
-          b.name, b.category, b.handle, 'menu', 'directo', 'instagram'
-        ].join(' ').toLowerCase()
+        locations,
+        haystack: norm([b.name, b.category, b.handle, 'menu','directo','instagram'].join(' '))
       });
 
-      // Entradas por sucursal
-      locs.forEach(loc => {
+      // Rows por sucursal
+      locations.forEach(loc => {
         rows.push({
           type: 'branch',
           brand: b,
-          brandName: b.name,
-          category: b.category || '',
           branch: loc.branch,
           uber: loc.uber,
           rappi: loc.rappi,
-          haystack: [
+          locations: [loc],
+          haystack: norm([
             b.name, b.category, loc.branch,
             loc.uber ? 'uber uber eats' : '',
             loc.rappi ? 'rappi' : ''
-          ].join(' ').toLowerCase()
+          ].join(' '))
         });
       });
     });
     return rows;
   }
 
-  const INDEX = buildIndex();
-  let currentQuery = '';
+  let INDEX = buildIndex();
+  let query = '';
 
   /* ══════════════════════════════════════════════════════
-     RENDER RESULTADOS
+     RENDER
      ══════════════════════════════════════════════════════ */
-  const resultsContainer = document.getElementById('results-container');
-  const resultsTitle = document.getElementById('results-title');
-  const resultsMeta = document.getElementById('results-meta');
+  const listEl = document.getElementById('list');
+  const metaCount = document.getElementById('meta-count');
+  const metaLabel = document.getElementById('meta-label');
   const searchInput = document.getElementById('search-input');
   const searchClear = document.getElementById('search-clear');
 
-  function renderResults(){
-    const q = norm(currentQuery);
-    const terms = q.split(/\s+/).filter(Boolean);
+  function render(){
+    const terms = norm(query).split(/\s+/).filter(Boolean);
 
-    let items = INDEX;
+    // Filtrar
+    let items;
+    if (!terms.length){
+      // Sin búsqueda → solo filas de marca
+      items = INDEX.filter(r => r.type === 'brand');
+    } else {
+      // Con búsqueda → buscar en TODO el índice
+      items = INDEX.filter(r => terms.every(t => r.haystack.includes(t)));
 
-    if (terms.length){
-      items = INDEX.filter(row => terms.every(t => row.haystack.includes(t)));
+      // Priorizar: si una sucursal coincide con todos los terms, la mostramos
+      // Si solo la marca coincide, mostramos la fila de marca
+      const branchMatches = items.filter(r => r.type === 'branch');
+      const brandMatches = items.filter(r => r.type === 'brand');
+
+      // Si hay branch matches, mostrarlas; si no, mostrar brand matches
+      items = branchMatches.length ? branchMatches : brandMatches;
     }
 
-    resultsContainer.innerHTML = '';
+    // Meta
+    if (!query){
+      metaCount.textContent = String(brands.length).padStart(2,'0');
+      metaLabel.textContent = 'Todas las marcas';
+    } else {
+      metaCount.textContent = String(items.length).padStart(2,'0');
+      metaLabel.textContent = `Resultados para "${query}"`;
+    }
 
-    if (currentQuery && items.length === 0){
-      resultsContainer.innerHTML = `
-        <div class="empty-state">
+    // Render
+    listEl.innerHTML = '';
+
+    if (!items.length){
+      listEl.innerHTML = `
+        <div class="empty">
           <i class="fas fa-circle-notch"></i>
-          Sin resultados para "${escapeHTML(currentQuery)}"
+          Sin resultados para "${esc(query)}"
         </div>`;
-      resultsTitle.textContent = '/ SIN RESULTADOS';
-      resultsMeta.textContent = '—';
       return;
     }
 
-    if (!currentQuery){
-      resultsTitle.textContent = '/ ÍNDICE COMPLETO';
-      resultsMeta.textContent = `${INDEX.length} ENTRADAS · ${brands.length} MARCAS`;
-    } else {
-      resultsTitle.textContent = `/ RESULTADOS — "${currentQuery.toUpperCase()}"`;
-      resultsMeta.textContent = `${items.length} ENTRADA${items.length === 1 ? '' : 'S'}`;
-    }
-
-    items.slice(0, 80).forEach(row => {
+    items.slice(0, 60).forEach(row => {
       const b = row.brand;
-      const hasImg = !!b.thumb;
-
-      const imgHTML = hasImg
-        ? `<img src="${b.thumb}" alt="${escapeHTML(b.name)}" loading="lazy">`
+      const imgHTML = b.thumb
+        ? `<img src="${b.thumb}" alt="${esc(b.name)}" loading="lazy">`
         : `<i class="fas fa-utensils"></i>`;
 
       const nameHTML = highlight(b.name, terms);
 
       const branchHTML = row.branch
-        ? `<span class="result__loc"><i class="fas fa-location-dot"></i>${highlight(row.branch, terms)}</span>`
+        ? `<span class="row__branch"><i class="fas fa-location-dot"></i>${highlight(row.branch, terms)}</span>`
         : '';
 
-      const metaParts = [];
-      if (row.category) metaParts.push(`<span><i class="fas fa-tag"></i>${escapeHTML(row.category)}</span>`);
-      if (b.handle) metaParts.push(`<span><i class="fab fa-instagram"></i>${escapeHTML(b.handle)}</span>`);
-      if (row.uber) metaParts.push(`<span><i class="fab fa-uber"></i>Uber Eats</span>`);
-      if (row.rappi) metaParts.push(`<span><i class="fas fa-motorcycle"></i>Rappi</span>`);
-      if (row.type === 'brand') metaParts.push(`<span><i class="fas fa-link"></i>Menú directo</span>`);
-
-      const railParts = [];
-
+      // Sub: categoría + sucursales
+      let sub;
       if (row.type === 'brand'){
-        railParts.push(`
-          <a class="act act--accent" href="${b.menuUrl}" target="_blank" rel="noopener noreferrer">
-            <i class="fas fa-utensils"></i>Ver menú
-          </a>
-        `);
-        if (b.instaUrl){
-          railParts.push(`
-            <a class="act" href="${b.instaUrl}" target="_blank" rel="noopener noreferrer">
-              <i class="fab fa-instagram"></i>Instagram
-            </a>
-          `);
-        }
-        railParts.push(`
-          <button class="act apps-btn" data-brand="${escapeHTML(b.name)}">
-            <i class="fas fa-mobile-alt"></i>Delivery
-          </button>
-        `);
+        const n = row.locations.length;
+        sub = `${esc(b.category || 'Marca')} · ${n} sucursal${n===1?'':'es'}`;
       } else {
-        if (row.uber){
-          railParts.push(`
-            <a class="act act--accent" href="${row.uber}" target="_blank" rel="noopener noreferrer">
-              <i class="fab fa-uber"></i>Uber Eats
-            </a>
-          `);
-        }
-        if (row.rappi){
-          railParts.push(`
-            <a class="act${row.uber ? '' : ' act--accent'}" href="${row.rappi}" target="_blank" rel="noopener noreferrer">
-              <i class="fas fa-motorcycle"></i>Rappi
-            </a>
-          `);
-        }
-        railParts.push(`
-          <button class="act apps-btn" data-brand="${escapeHTML(b.name)}">
-            <i class="fas fa-list"></i>Todas las sucursales
-          </button>
-        `);
+        sub = esc(b.category || '');
       }
 
-      const rowEl = document.createElement('article');
-      rowEl.className = 'result';
-      rowEl.innerHTML = `
-        <div class="result__img">${imgHTML}</div>
-        <div class="result__body">
-          <div class="result__top">
-            <h2 class="result__name">${nameHTML}</h2>
+      // Acciones
+      let actions = '';
+      if (row.type === 'brand'){
+        actions = `
+          <a class="act act--accent" href="${b.menuUrl}" target="_blank" rel="noopener">
+            <i class="fas fa-utensils"></i>Menú
+          </a>
+          ${b.instaUrl ? `<a class="act" href="${b.instaUrl}" target="_blank" rel="noopener"><i class="fab fa-instagram"></i>IG</a>` : ''}
+          <button class="act" data-open="${esc(b.name)}">
+            <i class="fas fa-mobile-alt"></i>Delivery
+          </button>
+        `;
+      } else {
+        if (row.uber) actions += `<a class="act act--accent" href="${row.uber}" target="_blank" rel="noopener"><i class="fab fa-uber"></i>Uber</a>`;
+        if (row.rappi) actions += `<a class="act${row.uber?'':' act--accent'}" href="${row.rappi}" target="_blank" rel="noopener"><i class="fas fa-motorcycle"></i>Rappi</a>`;
+        actions += `<button class="act" data-open="${esc(b.name)}"><i class="fas fa-list"></i>Todas</button>`;
+      }
+
+      const el = document.createElement('article');
+      el.className = 'row';
+      el.innerHTML = `
+        <div class="row__img">${imgHTML}</div>
+        <div class="row__body">
+          <div class="row__title">
+            <span class="row__name">${nameHTML}</span>
             ${branchHTML}
           </div>
-          <div class="result__meta">${metaParts.join('')}</div>
-          <div class="result__rail">${railParts.join('')}</div>
+          <div class="row__sub"><i class="fas fa-tag"></i>${sub}</div>
         </div>
+        <div class="row__actions">${actions}</div>
       `;
-      resultsContainer.appendChild(rowEl);
+      listEl.appendChild(el);
     });
 
-    if (items.length > 80){
-      const more = document.createElement('div');
-      more.className = 'empty-state';
-      more.innerHTML = `<i class="fas fa-ellipsis"></i>+${items.length - 80} resultados adicionales — refina tu búsqueda`;
-      resultsContainer.appendChild(more);
-    }
-
-    document.querySelectorAll('.apps-btn').forEach(btn => {
-      btn.addEventListener('click', () => openDeliveryModal(btn.getAttribute('data-brand')));
+    document.querySelectorAll('[data-open]').forEach(btn => {
+      btn.addEventListener('click', () => openModal(btn.getAttribute('data-open')));
     });
   }
 
   /* ══════════════════════════════════════════════════════
-     SEARCH INPUT
+     BÚSQUEDA
      ══════════════════════════════════════════════════════ */
-  let searchTimer;
+  let timer;
   searchInput.addEventListener('input', () => {
-    clearTimeout(searchTimer);
-    searchTimer = setTimeout(() => {
-      currentQuery = searchInput.value;
-      searchClear.classList.toggle('visible', currentQuery.length > 0);
-      renderResults();
-    }, 90);
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      query = searchInput.value;
+      searchClear.classList.toggle('visible', query.length > 0);
+      render();
+    }, 80);
   });
 
   searchClear.addEventListener('click', () => {
     searchInput.value = '';
-    currentQuery = '';
+    query = '';
     searchClear.classList.remove('visible');
-    renderResults();
+    render();
     searchInput.focus();
   });
 
@@ -1030,90 +744,55 @@ img{display:block;max-width:100%}
     }
   });
 
-  /* ══════════════════════════════════════════════════════
-     ATAJOS (fill search)
-     ══════════════════════════════════════════════════════ */
+  // Hints
   document.querySelectorAll('[data-fill]').forEach(el => {
     el.addEventListener('click', () => {
       searchInput.value = el.getAttribute('data-fill');
-      currentQuery = searchInput.value;
+      query = searchInput.value;
       searchClear.classList.add('visible');
-      renderResults();
+      render();
       searchInput.focus();
-      document.getElementById('search-section').scrollIntoView({behavior:'smooth', block:'start'});
     });
   });
 
   /* ══════════════════════════════════════════════════════
-     SIDEBAR TOGGLE
-     ══════════════════════════════════════════════════════ */
-  const shell = document.getElementById('shell');
-  const sidebarToggle = document.getElementById('sidebar-toggle');
-  const toggleIcon = document.getElementById('toggle-icon');
-
-  let collapsed = localStorage.getItem('amg-sidebar-collapsed') === '1';
-  if (collapsed) applyCollapse(true);
-
-  sidebarToggle.addEventListener('click', () => {
-    collapsed = !collapsed;
-    applyCollapse(collapsed);
-    localStorage.setItem('amg-sidebar-collapsed', collapsed ? '1' : '0');
-  });
-
-  function applyCollapse(state){
-    shell.classList.toggle('collapsed', state);
-    toggleIcon.className = state ? 'fas fa-angle-right' : 'fas fa-angle-left';
-  }
-
-  /* ══════════════════════════════════════════════════════
-     MODAL DELIVERY
+     MODAL
      ══════════════════════════════════════════════════════ */
   const modal = document.getElementById('deliveryModal');
   const modalTitle = document.getElementById('modalBrandTitle');
   const modalBody = document.getElementById('modalBodyContent');
   const closeModal = document.getElementById('closeModalBtn');
 
-  function openDeliveryModal(brandName){
-    const data = deliveryData[brandName] || { rappi: [], uber: [] };
+  function openModal(brandName){
+    const data = deliveryData[brandName] || {rappi:[], uber:[]};
     const rappiList = data.rappi || [];
-    const uberList  = data.uber  || [];
+    const uberList = data.uber || [];
 
-    modalTitle.innerHTML = `<b>${escapeHTML(brandName)}</b> · DELIVERY`;
+    modalTitle.innerHTML = `<b>${esc(brandName)}</b> · Delivery`;
 
     let html = '';
-
-    html += `<div class="cat">
-      <div class="cat__head"><i class="fab fa-uber"></i>Uber Eats</div>`;
-    if (uberList.length === 0){
-      html += `<div class="empty">No disponible</div>`;
-    } else {
-      uberList.forEach(item => {
-        html += `<a class="row-link" href="${item.url}" target="_blank" rel="noopener noreferrer">
-          <span class="row-link__b"><i class="fas fa-location-dot"></i>${escapeHTML(item.branch)}</span>
-          <span class="row-link__go">Pedir →</span>
-        </a>`;
-      });
-    }
+    html += `<div class="cat"><div class="cat__head"><i class="fab fa-uber"></i>Uber Eats</div>`;
+    if (!uberList.length) html += `<div class="no-data">No disponible</div>`;
+    else uberList.forEach(x => {
+      html += `<a class="link" href="${x.url}" target="_blank" rel="noopener">
+        <span class="link__b"><i class="fas fa-location-dot"></i>${esc(x.branch)}</span>
+        <span class="link__go">Pedir →</span>
+      </a>`;
+    });
     html += `</div>`;
 
-    html += `<div class="cat">
-      <div class="cat__head"><i class="fas fa-motorcycle"></i>Rappi</div>`;
-    if (rappiList.length === 0){
-      html += `<div class="empty">No disponible</div>`;
-    } else {
-      rappiList.forEach(item => {
-        html += `<a class="row-link" href="${item.url}" target="_blank" rel="noopener noreferrer">
-          <span class="row-link__b"><i class="fas fa-location-dot"></i>${escapeHTML(item.branch)}</span>
-          <span class="row-link__go">Pedir →</span>
-        </a>`;
-      });
-    }
+    html += `<div class="cat"><div class="cat__head"><i class="fas fa-motorcycle"></i>Rappi</div>`;
+    if (!rappiList.length) html += `<div class="no-data">No disponible</div>`;
+    else rappiList.forEach(x => {
+      html += `<a class="link" href="${x.url}" target="_blank" rel="noopener">
+        <span class="link__b"><i class="fas fa-location-dot"></i>${esc(x.branch)}</span>
+        <span class="link__go">Pedir →</span>
+      </a>`;
+    });
     html += `</div>`;
 
-    html += `<div class="cat">
-      <div class="cat__head"><i class="fas fa-car"></i>DiDi Food</div>
-      <div class="empty">Sin enlaces disponibles</div>
-    </div>`;
+    html += `<div class="cat"><div class="cat__head"><i class="fas fa-car"></i>DiDi Food</div>
+      <div class="no-data">Sin enlaces disponibles</div></div>`;
 
     modalBody.innerHTML = html;
     modal.classList.add('active');
@@ -1131,7 +810,7 @@ img{display:block;max-width:100%}
   });
 
   /* ══════════════════════════════════════════════════════
-     ADMIN (oculto — esquina inferior izquierda)
+     ADMIN (oculto)
      ══════════════════════════════════════════════════════ */
   const adminPanel = document.getElementById('admin-panel');
   const adminTrigger = document.getElementById('admin-trigger');
@@ -1146,34 +825,26 @@ img{display:block;max-width:100%}
 
   document.getElementById('add-link-btn').addEventListener('click', () => {
     const name = document.getElementById('link-title').value.trim();
-    const url  = document.getElementById('link-url').value.trim();
-    if (!name || !url) { alert('Completa título y URL'); return; }
+    const url = document.getElementById('link-url').value.trim();
+    if (!name || !url){ alert('Completa título y URL'); return; }
     try { new URL(url); } catch { alert('URL no válida'); return; }
-
-    brands.push({ name, category:'', menuUrl:url, instaUrl:url, thumb:'', handle:'' });
-    // Rebuild index
-    rebuildAndRender();
+    brands.push({name, category:'', menuUrl:url, instaUrl:url, thumb:'', handle:''});
+    INDEX = buildIndex();
+    render();
     document.getElementById('link-title').value = '';
     document.getElementById('link-url').value = '';
   });
 
   document.getElementById('reset-links-btn').addEventListener('click', () => {
-    if (confirm('¿Restaurar marcas originales?')) {
+    if (confirm('¿Restaurar marcas originales?')){
       brands = JSON.parse(JSON.stringify(DEFAULT));
-      rebuildAndRender();
+      INDEX = buildIndex();
+      render();
     }
   });
 
-  function rebuildAndRender(){
-    INDEX.length = 0;
-    buildIndex().forEach(r => INDEX.push(r));
-    renderResults();
-  }
-
-  /* ══════════════════════════════════════════════════════
-     INIT
-     ══════════════════════════════════════════════════════ */
-  renderResults();
+  /* INIT */
+  render();
 })();
 </script>
 </body>
