@@ -33,7 +33,7 @@ a{text-decoration:none;color:inherit}
 button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 img{display:block;max-width:100%}
 ::selection{background:var(--ember);color:var(--black)}
-:focus-visible{outline:1px solid var(--ember);outline-offset:2px}
+:focus-visible{outline:none}
 
 /* ══ HEADER ══ */
 .header{
@@ -67,11 +67,8 @@ img{display:block;max-width:100%}
   padding:0 14px;
   border:1px solid var(--chalk);
   border-radius:var(--r);
-  transition:border-color .2s var(--ease);
 }
-.search:focus-within{border-color:var(--ember)}
 .search i.fa-magnifying-glass{color:var(--ash);font-size:12px;flex-shrink:0}
-.search:focus-within i.fa-magnifying-glass{color:var(--ember)}
 .search input{
   flex:1;min-width:0;
   padding:11px 0;
@@ -80,6 +77,8 @@ img{display:block;max-width:100%}
   font-family:var(--font);
   font-size:13px;
   letter-spacing:0;
+  -webkit-appearance:none;
+  appearance:none;
 }
 .search input::placeholder{color:var(--ash)}
 .search__clear{
@@ -106,28 +105,9 @@ img{display:block;max-width:100%}
 }
 @media(max-width:640px){.main{padding:16px 16px 60px}}
 
-/* ══ HINTS ══ */
-.hints{
-  display:flex;flex-wrap:wrap;gap:6px;
-  margin-bottom:16px;
-  font-size:11px;letter-spacing:.04em;text-transform:uppercase;
-  align-items:center;
-  color:var(--ash);
-}
-.hints__label{color:var(--ash);margin-right:4px}
-.hints button{
-  padding:5px 10px;
-  border:1px solid var(--soot);
-  border-radius:var(--r);
-  color:var(--ash);
-  font-size:10px;letter-spacing:.04em;text-transform:uppercase;
-  transition:border-color .2s var(--ease),color .2s var(--ease);
-}
-.hints button:hover{border-color:var(--ember);color:var(--ember)}
-
-/* ══ META ══ */
+/* ══ META / TOOLBAR ══ */
 .meta{
-  display:flex;align-items:baseline;justify-content:space-between;
+  display:flex;align-items:center;justify-content:space-between;
   gap:12px;flex-wrap:wrap;
   padding-bottom:10px;margin-bottom:4px;
   font-size:11px;letter-spacing:.06em;text-transform:uppercase;
@@ -135,6 +115,24 @@ img{display:block;max-width:100%}
   border-bottom:1px solid var(--chalk);
 }
 .meta b{color:var(--bone);font-weight:400}
+
+.clear-filter{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 10px;
+  border:1px solid var(--chalk);
+  border-radius:var(--r);
+  font-family:var(--font);
+  font-size:10px;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--bone);
+  transition:border-color .15s var(--ease),color .15s var(--ease);
+  white-space:nowrap;
+}
+.clear-filter i{font-size:9px}
+.clear-filter:hover{border-color:var(--ember);color:var(--ember)}
+.clear-filter:disabled{
+  opacity:.35;
+  pointer-events:none;
+}
 
 /* ══ LIST ══ */
 .list{display:flex;flex-direction:column}
@@ -158,8 +156,12 @@ img{display:block;max-width:100%}
   display:grid;place-items:center;
   background:var(--black);
   flex-shrink:0;
+  padding:4px;
 }
-.row__img img{width:100%;height:100%;object-fit:cover}
+.row__img img{
+  width:100%;height:100%;
+  object-fit:contain;
+}
 .row__img i{color:var(--ash);font-size:18px}
 
 .row__body{min-width:0}
@@ -280,10 +282,11 @@ img{display:block;max-width:100%}
   background:transparent;border:1px solid var(--chalk);
   border-radius:var(--r);
   color:var(--bone);font-family:var(--font);font-size:12px;
-  outline:none;transition:border-color .15s var(--ease);
+  outline:none;
+  -webkit-appearance:none;
+  appearance:none;
 }
 .admin input::placeholder{color:var(--ash)}
-.admin input:focus{border-color:var(--ember)}
 .admin__actions{display:flex;gap:6px}
 
 /* ══ MODAL ══ */
@@ -382,7 +385,7 @@ img{display:block;max-width:100%}
     <a href="#" class="logo">AMG<small>Hospitality Group</small></a>
     <div class="search">
       <i class="fas fa-magnifying-glass"></i>
-      <input type="text" id="search-input" placeholder="Buscar marca o sucursal… (ej: Chubbies Roma)" autocomplete="off" spellcheck="false">
+      <input type="text" id="search-input" placeholder="Buscar marca o sucursal…" autocomplete="off" spellcheck="false">
       <button class="search__clear" id="search-clear" aria-label="Limpiar"><i class="fas fa-times"></i></button>
     </div>
   </div>
@@ -407,19 +410,13 @@ img{display:block;max-width:100%}
     </div>
   </section>
 
-  <!-- HINTS -->
-  <div class="hints" id="hints">
-    <span class="hints__label">Prueba:</span>
-    <button data-fill="Chubbies Roma">Chubbies Roma</button>
-    <button data-fill="Polanco">Polanco</button>
-    <button data-fill="Uber">Uber</button>
-    <button data-fill="Muy Gallito">Muy Gallito</button>
-  </div>
-
-  <!-- META -->
-  <div class="meta" id="meta">
-    <span>ÍNDICE · <b id="meta-count">06</b> MARCAS</span>
-    <span id="meta-label">Todas las marcas</span>
+  <!-- META / TOOLBAR -->
+  <div class="meta">
+    <span>ÍNDICE · <b id="meta-count">06</b> <span id="meta-unit">MARCAS</span></span>
+    <button class="clear-filter" id="clear-filter" disabled>
+      <i class="fas fa-filter-circle-xmark"></i>
+      Limpiar filtros
+    </button>
   </div>
 
   <!-- LISTA -->
@@ -571,7 +568,6 @@ img{display:block;max-width:100%}
       });
       const locations = [...locs.values()];
 
-      // Row "marca"
       rows.push({
         type: 'brand',
         brand: b,
@@ -582,7 +578,6 @@ img{display:block;max-width:100%}
         haystack: norm([b.name, b.category, b.handle, 'menu','directo','instagram'].join(' '))
       });
 
-      // Rows por sucursal
       locations.forEach(loc => {
         rows.push({
           type: 'branch',
@@ -610,39 +605,32 @@ img{display:block;max-width:100%}
      ══════════════════════════════════════════════════════ */
   const listEl = document.getElementById('list');
   const metaCount = document.getElementById('meta-count');
-  const metaLabel = document.getElementById('meta-label');
+  const metaUnit = document.getElementById('meta-unit');
   const searchInput = document.getElementById('search-input');
   const searchClear = document.getElementById('search-clear');
+  const clearFilterBtn = document.getElementById('clear-filter');
 
   function render(){
     const terms = norm(query).split(/\s+/).filter(Boolean);
+    const hasFilter = terms.length > 0;
 
-    // Filtrar
     let items;
-    if (!terms.length){
-      // Sin búsqueda → solo filas de marca
+    if (!hasFilter){
       items = INDEX.filter(r => r.type === 'brand');
     } else {
-      // Con búsqueda → buscar en TODO el índice
       items = INDEX.filter(r => terms.every(t => r.haystack.includes(t)));
-
-      // Priorizar: si una sucursal coincide con todos los terms, la mostramos
-      // Si solo la marca coincide, mostramos la fila de marca
       const branchMatches = items.filter(r => r.type === 'branch');
       const brandMatches = items.filter(r => r.type === 'brand');
-
-      // Si hay branch matches, mostrarlas; si no, mostrar brand matches
       items = branchMatches.length ? branchMatches : brandMatches;
     }
 
     // Meta
-    if (!query){
-      metaCount.textContent = String(brands.length).padStart(2,'0');
-      metaLabel.textContent = 'Todas las marcas';
-    } else {
-      metaCount.textContent = String(items.length).padStart(2,'0');
-      metaLabel.textContent = `Resultados para "${query}"`;
-    }
+    metaCount.textContent = String(hasFilter ? items.length : brands.length).padStart(2,'0');
+    metaUnit.textContent = hasFilter
+      ? (items.length === 1 ? 'RESULTADO' : 'RESULTADOS')
+      : (brands.length === 1 ? 'MARCA' : 'MARCAS');
+
+    clearFilterBtn.disabled = !hasFilter;
 
     // Render
     listEl.innerHTML = '';
@@ -668,7 +656,6 @@ img{display:block;max-width:100%}
         ? `<span class="row__branch"><i class="fas fa-location-dot"></i>${highlight(row.branch, terms)}</span>`
         : '';
 
-      // Sub: categoría + sucursales
       let sub;
       if (row.type === 'brand'){
         const n = row.locations.length;
@@ -677,7 +664,6 @@ img{display:block;max-width:100%}
         sub = esc(b.category || '');
       }
 
-      // Acciones
       let actions = '';
       if (row.type === 'brand'){
         actions = `
@@ -737,22 +723,18 @@ img{display:block;max-width:100%}
     searchInput.focus();
   });
 
+  clearFilterBtn.addEventListener('click', () => {
+    searchInput.value = '';
+    query = '';
+    searchClear.classList.remove('visible');
+    render();
+  });
+
   document.addEventListener('keydown', e => {
     if (e.key === '/' && document.activeElement !== searchInput){
       e.preventDefault();
       searchInput.focus();
     }
-  });
-
-  // Hints
-  document.querySelectorAll('[data-fill]').forEach(el => {
-    el.addEventListener('click', () => {
-      searchInput.value = el.getAttribute('data-fill');
-      query = searchInput.value;
-      searchClear.classList.add('visible');
-      render();
-      searchInput.focus();
-    });
   });
 
   /* ══════════════════════════════════════════════════════
