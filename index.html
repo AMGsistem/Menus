@@ -9,605 +9,533 @@
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-/* ============================================================
-   TOKENS — Foundry
-   ============================================================ */
 :root{
-  /* Colors */
-  --color-ember-orange:#ff4d00;
-  --color-foundry-black:#121212;
-  --color-chalk-white:#e2e8f0;
-  --color-bone-white:#efefef;
-  --color-soot:#3a3a3a;
-  --color-ash:#747474;
+  --ember:#ff4d00;
+  --black:#121212;
+  --chalk:#e2e8f0;
+  --bone:#efefef;
+  --soot:#3a3a3a;
+  --ash:#747474;
 
-  /* Type */
   --font-mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
   --font-inter:'Inter',ui-sans-serif,system-ui,-apple-system,sans-serif;
 
-  /* Radius */
   --r-tag:2.8px;
   --r-card:8px;
-
-  /* Spacing */
-  --gap-section:64px;
-
   --ease:cubic-bezier(.16,1,.3,1);
 }
 
-/* ============================================================
-   BASE
-   ============================================================ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-html{
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  scroll-behavior:smooth;
-  background:var(--color-foundry-black);
-}
-
+html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth;background:var(--black)}
 body{
   font-family:var(--font-mono);
   font-size:14px;
   line-height:1.5;
-  color:var(--color-bone-white);
-  background:var(--color-foundry-black);
+  color:var(--bone);
+  background:var(--black);
   min-height:100dvh;
-  overflow-x:hidden;
   letter-spacing:-0.02em;
 }
-
 a{text-decoration:none;color:inherit}
 button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 img{display:block;max-width:100%}
-::selection{background:var(--color-ember-orange);color:var(--color-foundry-black)}
-:focus-visible{outline:1px solid var(--color-ember-orange);outline-offset:2px}
+::selection{background:var(--ember);color:var(--black)}
+:focus-visible{outline:1px solid var(--ember);outline-offset:2px}
 
-/* ============================================================
-   TICKER BAR
-   ============================================================ */
+/* ══ TICKER ══ */
 .ticker{
-  border-bottom:1px solid var(--color-chalk-white);
-  background:var(--color-foundry-black);
+  border-bottom:1px solid var(--chalk);
   overflow:hidden;
   height:34px;
-  display:flex;
-  align-items:center;
-  position:relative;
-  z-index:20;
+  display:flex;align-items:center;
+  position:relative;z-index:20;
 }
 .ticker__track{
-  display:flex;
-  gap:32px;
-  white-space:nowrap;
+  display:flex;gap:32px;white-space:nowrap;
   animation:ticker 40s linear infinite;
   padding-left:32px;
-  font-size:12px;
-  font-weight:400;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-  color:var(--color-bone-white);
+  font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--bone);
 }
 .ticker__track span{display:inline-flex;align-items:center;gap:32px}
 .ticker__track span::after{
-  content:'';
-  width:0;height:0;
-  border-left:4px solid transparent;
-  border-right:4px solid transparent;
-  border-top:6px solid var(--color-ash);
-  display:inline-block;
+  content:'';width:0;height:0;
+  border-left:4px solid transparent;border-right:4px solid transparent;
+  border-top:6px solid var(--ash);display:inline-block;
 }
-@keyframes ticker{
-  from{transform:translateX(0)}
-  to{transform:translateX(-50%)}
-}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-/* ============================================================
-   LAYOUT — Sidebar + Main
-   ============================================================ */
+/* ══ SHELL ══ */
 .shell{
   display:grid;
-  grid-template-columns:220px 1fr;
+  grid-template-columns:240px 1fr;
   max-width:1440px;
   margin:0 auto;
   min-height:calc(100dvh - 34px);
+  transition:grid-template-columns .35s var(--ease);
 }
+.shell.collapsed{grid-template-columns:64px 1fr}
 
-/* ---------- Sidebar ---------- */
+/* ══ SIDEBAR ══ */
 .sidebar{
-  border-right:1px solid var(--color-chalk-white);
+  border-right:1px solid var(--chalk);
   padding:24px 20px;
-  display:flex;
-  flex-direction:column;
-  gap:32px;
-  position:sticky;
-  top:0;
-  align-self:start;
+  display:flex;flex-direction:column;gap:28px;
+  position:sticky;top:0;align-self:start;
   height:calc(100dvh - 34px);
-  overflow-y:auto;
+  overflow-y:auto;overflow-x:hidden;
+  transition:padding .35s var(--ease);
 }
+.shell.collapsed .sidebar{padding:24px 12px}
 
 .logo{
-  font-family:var(--font-mono);
-  font-weight:700;
-  font-size:20px;
-  line-height:1.05;
-  letter-spacing:-0.01em;
-  color:var(--color-ember-orange);
-  text-transform:uppercase;
+  font-family:var(--font-mono);font-weight:700;
+  font-size:18px;line-height:1.05;letter-spacing:-0.01em;
+  color:var(--ember);text-transform:uppercase;
+  white-space:nowrap;overflow:hidden;
 }
 .logo span{display:block}
 .logo small{
-  display:inline-block;
-  font-size:10px;
-  font-weight:400;
-  letter-spacing:.14em;
-  color:var(--color-ash);
-  margin-top:6px;
+  display:block;font-size:9px;font-weight:400;
+  letter-spacing:.14em;color:var(--ash);
+  margin-top:6px;white-space:nowrap;
 }
+.shell.collapsed .logo span:not(:first-child),
+.shell.collapsed .logo small{display:none}
+.shell.collapsed .logo{text-align:center}
+
+.sidebar__toggle{
+  align-self:flex-end;
+  width:26px;height:26px;
+  display:grid;place-items:center;
+  border:1px solid var(--chalk);
+  border-radius:var(--r-tag);
+  color:var(--bone);
+  font-size:10px;
+  transition:border-color .2s var(--ease),color .2s var(--ease);
+  margin-top:-6px;
+}
+.sidebar__toggle:hover{border-color:var(--ember);color:var(--ember)}
+.shell.collapsed .sidebar__toggle{align-self:center;margin-top:0}
 
 .nav-group{display:flex;flex-direction:column;gap:6px}
-
 .nav-group__head{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  font-size:12px;
-  font-weight:700;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-  color:var(--color-bone-white);
-  margin-bottom:6px;
+  display:flex;align-items:center;gap:6px;
+  font-size:11px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--bone);
+  margin-bottom:6px;white-space:nowrap;
 }
 .nav-group__head::before{
-  content:'';
-  width:6px;height:6px;
-  border-left:1.5px solid var(--color-bone-white);
-  border-bottom:1.5px solid var(--color-bone-white);
-  align-self:flex-end;
-  margin-bottom:1px;
+  content:'';width:6px;height:6px;
+  border-left:1.5px solid var(--bone);border-bottom:1.5px solid var(--bone);
+  align-self:flex-end;margin-bottom:1px;flex-shrink:0;
 }
+.shell.collapsed .nav-group__head span{display:none}
 
 .nav-tag{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
   padding:9px 10px;
-  background:var(--color-bone-white);
-  color:var(--color-foundry-black);
+  background:var(--bone);color:var(--black);
   border-radius:var(--r-tag);
-  font-size:12px;
-  font-weight:400;
-  letter-spacing:.04em;
-  text-transform:uppercase;
-  line-height:1;
-  transition:background .2s var(--ease),color .2s var(--ease);
-  cursor:pointer;
+  font-size:12px;letter-spacing:.04em;text-transform:uppercase;line-height:1;
+  transition:background .2s var(--ease);
 }
-.nav-tag:hover{background:var(--color-ember-orange);color:var(--color-foundry-black)}
-.nav-tag__count{
-  font-size:11px;
-  color:var(--color-ash);
-  letter-spacing:.04em;
-}
-.nav-tag:hover .nav-tag__count{color:var(--color-foundry-black)}
+.nav-tag:hover{background:var(--ember)}
+.nav-tag i{font-size:11px;flex-shrink:0}
+.nav-tag__count{font-size:10px;color:var(--ash)}
+.shell.collapsed .nav-tag{justify-content:center;padding:9px 6px}
+.shell.collapsed .nav-tag span:not(.nav-tag__count),
+.shell.collapsed .nav-tag__count{display:none}
 
 .nav-ghost{
-  display:flex;
-  align-items:center;
-  gap:8px;
+  display:flex;align-items:center;gap:8px;
   padding:9px 10px;
-  border:1px solid var(--color-chalk-white);
+  border:1px solid var(--chalk);
   border-radius:var(--r-tag);
-  font-size:12px;
-  letter-spacing:.04em;
-  text-transform:uppercase;
-  color:var(--color-bone-white);
+  font-size:12px;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--bone);
   transition:border-color .2s var(--ease),color .2s var(--ease);
-  cursor:pointer;
 }
-.nav-ghost:hover{border-color:var(--color-ember-orange);color:var(--color-ember-orange)}
+.nav-ghost:hover{border-color:var(--ember);color:var(--ember)}
+.nav-ghost i{font-size:11px;flex-shrink:0}
+.shell.collapsed .nav-ghost{justify-content:center;padding:9px 6px}
+.shell.collapsed .nav-ghost span{display:none}
 
 .sidebar__footer{
-  margin-top:auto;
-  padding-top:20px;
-  border-top:1px solid var(--color-soot);
-  font-size:11px;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-  color:var(--color-ash);
-  line-height:1.7;
+  margin-top:auto;padding-top:20px;
+  border-top:1px solid var(--soot);
+  font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ash);line-height:1.7;
+  white-space:nowrap;overflow:hidden;
 }
-.sidebar__footer a{color:var(--color-ash);transition:color .2s var(--ease)}
-.sidebar__footer a:hover{color:var(--color-bone-white)}
+.sidebar__footer a{color:var(--ash);transition:color .2s var(--ease)}
+.sidebar__footer a:hover{color:var(--bone)}
+.shell.collapsed .sidebar__footer{display:none}
 
 @media(max-width:820px){
   .shell{grid-template-columns:1fr}
+  .shell.collapsed{grid-template-columns:1fr}
   .sidebar{
-    position:static;
-    height:auto;
-    border-right:none;
-    border-bottom:1px solid var(--color-chalk-white);
+    position:static;height:auto;
+    border-right:none;border-bottom:1px solid var(--chalk);
     padding:20px;
   }
-  .nav-group + .nav-group{margin-top:8px}
+  .shell.collapsed .sidebar{padding:20px}
+  .shell.collapsed .logo span:not(:first-child),
+  .shell.collapsed .logo small{display:block}
+  .shell.collapsed .logo{text-align:left}
+  .shell.collapsed .nav-group__head span,
+  .shell.collapsed .nav-tag span:not(.nav-tag__count),
+  .shell.collapsed .nav-tag__count,
+  .shell.collapsed .nav-ghost span,
+  .shell.collapsed .sidebar__footer{display:revert}
+  .shell.collapsed .nav-tag,
+  .shell.collapsed .nav-ghost{justify-content:space-between;padding:9px 10px}
+  .shell.collapsed .nav-ghost{justify-content:flex-start}
+  .sidebar__toggle{display:none}
 }
 
-/* ---------- Main ---------- */
-.main{
-  padding:40px 40px 100px;
-  min-width:0;
-}
+/* ══ MAIN ══ */
+.main{padding:40px 40px 100px;min-width:0}
 @media(max-width:820px){.main{padding:32px 20px 80px}}
 
-/* ============================================================
-   HERO
-   ============================================================ */
+/* ══ HERO ══ */
 .hero{
-  padding-bottom:var(--gap-section);
-  border-bottom:1px solid var(--color-chalk-white);
-  margin-bottom:var(--gap-section);
+  padding-bottom:40px;
+  border-bottom:1px solid var(--chalk);
+  margin-bottom:32px;
 }
-
 .hero__label{
-  font-size:12px;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-  color:var(--color-ash);
-  margin-bottom:24px;
+  font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ash);margin-bottom:20px;
 }
-.hero__label b{color:var(--color-bone-white);font-weight:400}
+.hero__label b{color:var(--bone);font-weight:400}
 
 .hero__title{
-  font-family:var(--font-mono);
-  font-weight:700;
-  font-size:clamp(48px,10vw,132px);
-  line-height:.95;
-  letter-spacing:-0.02em;
-  color:var(--color-bone-white);
-  text-transform:uppercase;
-  margin-bottom:24px;
+  font-family:var(--font-mono);font-weight:700;
+  font-size:clamp(40px,8vw,104px);
+  line-height:.95;letter-spacing:-0.02em;
+  color:var(--bone);text-transform:uppercase;
+  margin-bottom:20px;
 }
-.hero__title em{
-  font-style:normal;
-  color:var(--color-ember-orange);
-}
+.hero__title em{font-style:normal;color:var(--ember)}
 
 .hero__foot{
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px 32px;
-  align-items:baseline;
-  font-size:12px;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-  color:var(--color-ash);
+  display:flex;flex-wrap:wrap;gap:10px 28px;align-items:baseline;
+  font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ash);
 }
-.hero__foot strong{color:var(--color-bone-white);font-weight:400}
+.hero__foot strong{color:var(--bone);font-weight:400}
 .hero__foot .dot{
-  display:inline-block;
-  width:6px;height:6px;
-  background:var(--color-ember-orange);
-  margin-right:8px;
-  vertical-align:middle;
+  display:inline-block;width:6px;height:6px;
+  background:var(--ember);margin-right:8px;vertical-align:middle;
 }
 
-/* ============================================================
-   SPECIMEN SECTION HEAD
-   ============================================================ */
-.section-head{
-  display:flex;
-  align-items:baseline;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  gap:12px;
-  padding-bottom:15px;
-  border-bottom:1px solid var(--color-chalk-white);
-  margin-bottom:24px;
-  font-size:12px;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-}
-.section-head__title{color:var(--color-bone-white)}
-.section-head__meta{color:var(--color-ash)}
-
-/* ============================================================
-   LINK INDEX — filas estilo specimen
-   ============================================================ */
-.index{
-  display:flex;
-  flex-direction:column;
-  border-top:1px solid var(--color-chalk-white);
-}
-
-.link-row{
-  display:grid;
-  grid-template-columns:56px 1fr auto;
-  gap:20px;
-  align-items:center;
-  padding:20px 0;
-  border-bottom:1px solid var(--color-chalk-white);
-  transition:background .2s var(--ease);
+/* ══ SEARCH ══ */
+.search{
+  margin-bottom:32px;
   position:relative;
 }
-.link-row:hover{background:rgba(255,77,0,.03)}
-.link-row:hover .link-row__name{color:var(--color-ember-orange)}
-.link-row:hover .link-row__arrow{color:var(--color-ember-orange);transform:translate(2px,-2px)}
-
-.link-row__index{
-  font-size:12px;
-  letter-spacing:.06em;
-  color:var(--color-ash);
-  text-transform:uppercase;
-  align-self:start;
-  padding-top:6px;
+.search__label{
+  display:flex;align-items:baseline;justify-content:space-between;
+  gap:12px;flex-wrap:wrap;
+  font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ash);margin-bottom:10px;
 }
-
-.link-row__body{min-width:0}
-
-.link-row__name{
+.search__label kbd{
   font-family:var(--font-mono);
-  font-weight:700;
-  font-size:clamp(22px,3vw,36px);
-  line-height:1.05;
+  font-size:10px;letter-spacing:.04em;
+  padding:2px 6px;
+  border:1px solid var(--soot);
+  border-radius:var(--r-tag);
+  color:var(--ash);
+}
+.search__field{
+  display:flex;align-items:center;gap:12px;
+  padding:0 16px;
+  border:1px solid var(--chalk);
+  border-radius:var(--r-tag);
+  background:var(--black);
+  transition:border-color .2s var(--ease);
+}
+.search__field:focus-within{border-color:var(--ember)}
+.search__field i.fa-magnifying-glass{
+  color:var(--ash);font-size:13px;flex-shrink:0;
+}
+.search__field:focus-within i.fa-magnifying-glass{color:var(--ember)}
+.search__field input{
+  flex:1;min-width:0;
+  padding:15px 0;
+  background:transparent;border:none;outline:none;
+  color:var(--bone);
+  font-family:var(--font-mono);
+  font-size:15px;
   letter-spacing:-0.01em;
-  color:var(--color-bone-white);
-  text-transform:uppercase;
+}
+.search__field input::placeholder{color:var(--ash)}
+.search__clear{
+  color:var(--ash);font-size:13px;
+  padding:6px;
   transition:color .2s var(--ease);
-  margin-bottom:8px;
+  display:none;
+}
+.search__clear.visible{display:block}
+.search__clear:hover{color:var(--ember)}
+
+.search__hint{
+  display:flex;flex-wrap:wrap;gap:8px;
+  margin-top:12px;
+  font-size:11px;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--ash);
+}
+.search__hint button{
+  padding:5px 10px;
+  border:1px solid var(--soot);
+  border-radius:var(--r-tag);
+  color:var(--ash);
+  font-size:10px;letter-spacing:.04em;text-transform:uppercase;
+  transition:border-color .2s var(--ease),color .2s var(--ease);
+}
+.search__hint button:hover{border-color:var(--ember);color:var(--ember)}
+
+/* ══ RESULTS ══ */
+.section-head{
+  display:flex;align-items:baseline;justify-content:space-between;
+  flex-wrap:wrap;gap:12px;
+  padding-bottom:12px;
+  border-bottom:1px solid var(--chalk);
+  margin-bottom:16px;
+  font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+}
+.section-head__title{color:var(--bone)}
+.section-head__meta{color:var(--ash)}
+
+.results{display:flex;flex-direction:column}
+
+.result{
+  display:grid;
+  grid-template-columns:64px 1fr;
+  gap:16px;
+  padding:20px 0;
+  border-bottom:1px solid var(--chalk);
+  transition:background .2s var(--ease);
+}
+.result:hover{background:rgba(255,77,0,.03)}
+
+.result__img{
+  width:64px;height:64px;
+  border:1px solid var(--chalk);
+  border-radius:var(--r-tag);
+  overflow:hidden;
+  background:var(--black);
+  display:grid;place-items:center;
+  flex-shrink:0;
+}
+.result__img img{width:100%;height:100%;object-fit:cover}
+.result__img i{color:var(--ash);font-size:22px}
+
+.result__body{min-width:0}
+
+.result__top{
+  display:flex;flex-wrap:wrap;align-items:baseline;
+  gap:8px 12px;margin-bottom:6px;
+}
+.result__name{
+  font-family:var(--font-mono);font-weight:700;
+  font-size:clamp(20px,2.6vw,28px);
+  line-height:1.05;letter-spacing:-0.01em;
+  color:var(--bone);text-transform:uppercase;
   word-break:break-word;
 }
-
-.link-row__meta{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px 16px;
-  font-size:12px;
-  letter-spacing:.04em;
-  text-transform:uppercase;
-  color:var(--color-ash);
-}
-.link-row__meta span{display:inline-flex;align-items:center;gap:6px}
-.link-row__meta i{font-size:10px}
-
-.link-row__arrow{
-  font-size:20px;
-  color:var(--color-chalk-white);
-  transition:color .2s var(--ease),transform .2s var(--ease);
-  align-self:start;
-  padding-top:4px;
+.result__name mark{
+  background:var(--ember);color:var(--black);
+  padding:0 3px;
 }
 
-/* ---------- Action rail ---------- */
-.link-row__rail{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-top:14px;
+.result__loc{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:3px 8px;
+  border:1px solid var(--chalk);
+  border-radius:var(--r-tag);
+  font-size:10px;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--bone);
+}
+.result__loc i{font-size:9px;color:var(--ember)}
+.result__loc mark{background:var(--ember);color:var(--black);padding:0 2px}
+
+.result__meta{
+  display:flex;flex-wrap:wrap;gap:6px 14px;
+  font-size:11px;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--ash);
+  margin-bottom:12px;
+}
+.result__meta span{display:inline-flex;align-items:center;gap:6px}
+.result__meta i{font-size:9px}
+
+.result__rail{
+  display:flex;flex-wrap:wrap;gap:6px;
 }
 
 .act{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:9px 14px;
-  border:1px solid var(--color-chalk-white);
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 12px;
+  border:1px solid var(--chalk);
   border-radius:var(--r-tag);
   font-family:var(--font-mono);
-  font-size:12px;
-  letter-spacing:.04em;
-  text-transform:uppercase;
-  color:var(--color-bone-white);
-  background:transparent;
+  font-size:11px;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--bone);background:transparent;
   transition:border-color .2s var(--ease),color .2s var(--ease),background .2s var(--ease);
   line-height:1;
 }
-.act i{font-size:11px}
-.act:hover{border-color:var(--color-ember-orange);color:var(--color-ember-orange)}
+.act i{font-size:10px}
+.act:hover{border-color:var(--ember);color:var(--ember)}
+.act--accent{border-color:var(--ember);color:var(--ember)}
+.act--accent:hover{background:rgba(255,77,0,.08)}
 
-.act--accent{
-  border-color:var(--color-ember-orange);
-  color:var(--color-ember-orange);
+.empty-state{
+  padding:48px 0;
+  text-align:center;
+  color:var(--ash);
+  font-size:13px;
+  letter-spacing:.04em;text-transform:uppercase;
 }
-.act--accent:hover{background:rgba(255,77,0,.08);color:var(--color-ember-orange)}
-
-@media(max-width:640px){
-  .link-row{grid-template-columns:1fr auto;gap:12px}
-  .link-row__index{display:none}
-  .link-row__name{font-size:22px}
+.empty-state i{
+  display:block;font-size:28px;
+  margin-bottom:14px;color:var(--soot);
 }
 
-/* ============================================================
-   ADMIN PANEL
-   ============================================================ */
+/* ══ HIDDEN ADMIN ══ */
 .admin{
   display:none;
-  padding:20px;
-  border:1px solid var(--color-chalk-white);
+  padding:16px;
+  border:1px solid var(--chalk);
   border-radius:var(--r-card);
-  margin-bottom:32px;
+  margin-bottom:24px;
 }
 .admin.visible{display:block}
 .admin__head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding-bottom:12px;
-  margin-bottom:16px;
-  border-bottom:1px solid var(--color-soot);
-  font-size:12px;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-  color:var(--color-ash);
+  display:flex;align-items:center;justify-content:space-between;
+  padding-bottom:12px;margin-bottom:14px;
+  border-bottom:1px solid var(--soot);
+  font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ash);
 }
 .admin__form{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  margin-bottom:12px;
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;
 }
 @media(max-width:640px){.admin__form{grid-template-columns:1fr}}
 .admin input{
-  width:100%;
-  padding:11px 12px;
-  background:transparent;
-  border:1px solid var(--color-chalk-white);
+  width:100%;padding:10px 12px;
+  background:transparent;border:1px solid var(--chalk);
   border-radius:var(--r-tag);
-  color:var(--color-bone-white);
-  font-family:var(--font-mono);
-  font-size:13px;
-  letter-spacing:0;
+  color:var(--bone);
+  font-family:var(--font-mono);font-size:13px;
   outline:none;
   transition:border-color .2s var(--ease);
 }
-.admin input::placeholder{color:var(--color-ash)}
-.admin input:focus{border-color:var(--color-ember-orange)}
-
+.admin input::placeholder{color:var(--ash)}
+.admin input:focus{border-color:var(--ember)}
 .admin__actions{display:flex;gap:8px}
 
-/* ============================================================
-   FOOTER
-   ============================================================ */
-.page-footer{
-  margin-top:var(--gap-section);
-  padding-top:24px;
-  border-top:1px solid var(--color-chalk-white);
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:space-between;
-  gap:12px;
-  font-size:11px;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-  color:var(--color-ash);
-}
-
-#toggle-admin-btn{
-  position:fixed;
-  bottom:0;left:0;
-  width:100%;height:12px;
+#admin-trigger{
+  position:fixed;bottom:0;left:0;
+  width:32px;height:32px;
   background:transparent;
-  cursor:default;
-  z-index:30;
+  cursor:default;z-index:30;
 }
 
-/* ============================================================
-   MODAL — Delivery
-   ============================================================ */
+/* ══ FOOTER ══ */
+.page-footer{
+  margin-top:48px;padding-top:20px;
+  border-top:1px solid var(--chalk);
+  display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;
+  font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ash);
+}
+
+/* ══ MODAL ══ */
 .modal{
   position:fixed;inset:0;z-index:200;
   display:flex;align-items:center;justify-content:center;
   padding:20px;
-  background:rgba(18,18,18,.92);
+  background:rgba(18,18,18,.94);
   opacity:0;visibility:hidden;
   transition:opacity .25s var(--ease),visibility .25s var(--ease);
 }
 .modal.active{opacity:1;visibility:visible}
-
 .modal__panel{
   width:min(600px,100%);
   max-height:82vh;
   display:flex;flex-direction:column;
-  border:1px solid var(--color-chalk-white);
+  border:1px solid var(--chalk);
   border-radius:var(--r-card);
-  background:var(--color-foundry-black);
+  background:var(--black);
   overflow:hidden;
   transform:translateY(8px);
   transition:transform .25s var(--ease);
 }
 .modal.active .modal__panel{transform:translateY(0)}
-
 .modal__head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:15px 20px;
-  border-bottom:1px solid var(--color-chalk-white);
-  font-size:12px;
-  letter-spacing:.06em;
-  text-transform:uppercase;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;padding:14px 18px;
+  border-bottom:1px solid var(--chalk);
+  font-size:12px;letter-spacing:.06em;text-transform:uppercase;
 }
-.modal__head b{font-weight:700;color:var(--color-bone-white)}
+.modal__head b{font-weight:700;color:var(--bone)}
 .modal__close{
   width:26px;height:26px;
   display:grid;place-items:center;
-  border:1px solid var(--color-chalk-white);
+  border:1px solid var(--chalk);
   border-radius:var(--r-tag);
-  color:var(--color-bone-white);
-  font-size:11px;
+  color:var(--bone);font-size:11px;
   transition:border-color .2s var(--ease),color .2s var(--ease);
 }
-.modal__close:hover{border-color:var(--color-ember-orange);color:var(--color-ember-orange)}
-
-.modal__body{
-  padding:20px;
-  overflow-y:auto;
-  overscroll-behavior:contain;
-}
+.modal__close:hover{border-color:var(--ember);color:var(--ember)}
+.modal__body{padding:18px;overflow-y:auto}
 .modal__body::-webkit-scrollbar{width:6px}
-.modal__body::-webkit-scrollbar-thumb{background:var(--color-soot)}
+.modal__body::-webkit-scrollbar-thumb{background:var(--soot)}
 
-.cat{margin-bottom:24px}
+.cat{margin-bottom:20px}
 .cat:last-child{margin-bottom:0}
-
 .cat__head{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding-bottom:10px;
-  margin-bottom:10px;
-  border-bottom:1px solid var(--color-soot);
-  font-size:12px;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-  color:var(--color-bone-white);
+  display:flex;align-items:center;gap:8px;
+  padding-bottom:10px;margin-bottom:10px;
+  border-bottom:1px solid var(--soot);
+  font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--bone);
 }
-.cat__head i{color:var(--color-ember-orange);font-size:12px}
+.cat__head i{color:var(--ember);font-size:11px}
 
 .row-link{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:11px 12px;
-  border:1px solid var(--color-chalk-white);
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;padding:10px 12px;
+  border:1px solid var(--chalk);
   border-radius:var(--r-tag);
   margin-bottom:6px;
-  font-size:13px;
-  letter-spacing:.01em;
-  color:var(--color-bone-white);
+  font-size:12px;letter-spacing:.01em;
+  color:var(--bone);
   transition:border-color .2s var(--ease),color .2s var(--ease);
 }
 .row-link:last-child{margin-bottom:0}
-.row-link:hover{border-color:var(--color-ember-orange);color:var(--color-ember-orange)}
+.row-link:hover{border-color:var(--ember);color:var(--ember)}
 .row-link__b{
   display:flex;align-items:center;gap:8px;
-  text-transform:uppercase;
-  letter-spacing:.04em;
-  font-size:12px;
+  text-transform:uppercase;letter-spacing:.04em;font-size:11px;
 }
-.row-link__b i{font-size:10px;color:var(--color-ash)}
-.row-link:hover .row-link__b i{color:var(--color-ember-orange)}
+.row-link__b i{font-size:9px;color:var(--ash)}
+.row-link:hover .row-link__b i{color:var(--ember)}
 .row-link__go{
-  font-size:11px;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-  color:var(--color-ash);
+  font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ash);
 }
-.row-link:hover .row-link__go{color:var(--color-ember-orange)}
+.row-link:hover .row-link__go{color:var(--ember)}
 
 .empty{
-  padding:11px 12px;
-  border:1px dashed var(--color-soot);
+  padding:10px 12px;
+  border:1px dashed var(--soot);
   border-radius:var(--r-tag);
-  font-size:12px;
-  letter-spacing:.04em;
-  text-transform:uppercase;
-  color:var(--color-ash);
+  font-size:11px;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--ash);
 }
 </style>
 </head>
@@ -617,21 +545,25 @@ img{display:block;max-width:100%}
 <div class="ticker" aria-hidden="true">
   <div class="ticker__track">
     <span>AMG HOSPITALITY GROUP</span>
-    <span>6 MARCAS · MÉXICO</span>
-    <span>MENÚ DIRECTO + DELIVERY</span>
+    <span>BUSCA: MARCA + SUCURSAL</span>
     <span>UBER EATS · RAPPI · DIDI</span>
+    <span>EJ: CHUBBIES ROMA</span>
     <span>AMG HOSPITALITY GROUP</span>
-    <span>6 MARCAS · MÉXICO</span>
-    <span>MENÚ DIRECTO + DELIVERY</span>
+    <span>BUSCA: MARCA + SUCURSAL</span>
     <span>UBER EATS · RAPPI · DIDI</span>
+    <span>EJ: CHUBBIES ROMA</span>
   </div>
 </div>
 
 <!-- ══ SHELL ══ -->
-<div class="shell">
+<div class="shell" id="shell">
 
   <!-- ─── SIDEBAR ─── -->
   <aside class="sidebar">
+    <button class="sidebar__toggle" id="sidebar-toggle" aria-label="Minimizar menú">
+      <i class="fas fa-angle-left" id="toggle-icon"></i>
+    </button>
+
     <div>
       <div class="logo">
         <span>AMG</span>
@@ -641,29 +573,36 @@ img{display:block;max-width:100%}
     </div>
 
     <nav class="nav-group">
-      <div class="nav-group__head">Índice</div>
-      <a href="#marcas" class="nav-tag">
+      <div class="nav-group__head"><span>Índice</span></div>
+      <a href="#search-section" class="nav-tag" title="Buscar">
+        <i class="fas fa-magnifying-glass"></i>
+        <span>Buscar</span>
+      </a>
+      <a href="#results" class="nav-tag" title="Marcas">
+        <i class="fas fa-utensils"></i>
         <span>Marcas</span>
         <span class="nav-tag__count">06</span>
       </a>
-      <a href="#marcas" class="nav-tag">
-        <span>Menús</span>
-        <span class="nav-tag__count">06</span>
-      </a>
-      <a href="#marcas" class="nav-tag">
-        <span>Delivery</span>
-        <span class="nav-tag__count">03</span>
-      </a>
-      <a href="#contacto" class="nav-tag">
+      <a href="#contacto" class="nav-tag" title="Contacto">
+        <i class="fas fa-envelope"></i>
         <span>Contacto</span>
-        <span class="nav-tag__count">→</span>
       </a>
     </nav>
 
     <div class="nav-group">
-      <div class="nav-group__head">Atajos</div>
-      <a href="#marcas" class="nav-ghost"><i class="fas fa-utensils"></i>Ver menús</a>
-      <button class="nav-ghost" id="open-admin"><i class="fas fa-sliders"></i>Admin</button>
+      <div class="nav-group__head"><span>Atajos</span></div>
+      <button class="nav-ghost" data-fill="Chubbies Roma" title="Chubbies Roma">
+        <i class="fas fa-bolt"></i>
+        <span>Chubbies Roma</span>
+      </button>
+      <button class="nav-ghost" data-fill="Muy Gallito" title="Muy Gallito">
+        <i class="fas fa-bolt"></i>
+        <span>Muy Gallito</span>
+      </button>
+      <button class="nav-ghost" data-fill="Palermo" title="Palermo">
+        <i class="fas fa-bolt"></i>
+        <span>Palermo</span>
+      </button>
     </div>
 
     <div class="sidebar__footer">
@@ -678,16 +617,43 @@ img{display:block;max-width:100%}
     <!-- HERO -->
     <section class="hero">
       <div class="hero__label">AMG HOSPITALITY GROUP — <b>INDEX / 01</b></div>
-      <h1 class="hero__title">Link<br><em>Index</em></h1>
+      <h1 class="hero__title">Busca<br><em>y pide</em></h1>
       <div class="hero__foot">
-        <span><span class="dot"></span><strong>Accesos rápidos</strong> a menús y delivery</span>
+        <span><span class="dot"></span><strong>Marca + sucursal</strong> en un solo campo</span>
         <span>06 marcas</span>
         <span>03 apps</span>
-        <span>CDMX · MX</span>
       </div>
     </section>
 
-    <!-- ADMIN -->
+    <!-- SEARCH -->
+    <section class="search" id="search-section">
+      <div class="search__label">
+        <span>BUSCAR MARCA O SUCURSAL</span>
+        <kbd>/</kbd>
+      </div>
+      <div class="search__field">
+        <i class="fas fa-magnifying-glass"></i>
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Ej: Chubbies Roma, Muy Gallito Polanco, Tiin Thai..."
+          autocomplete="off"
+          spellcheck="false"
+        >
+        <button class="search__clear" id="search-clear" aria-label="Limpiar">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="search__hint">
+        <button data-fill="Chubbies">Chubbies</button>
+        <button data-fill="Roma">Roma</button>
+        <button data-fill="Polanco">Polanco</button>
+        <button data-fill="Satélite">Satélite</button>
+        <button data-fill="Uber">Uber</button>
+      </div>
+    </section>
+
+    <!-- ADMIN (oculto) -->
     <section class="admin" id="admin-panel">
       <div class="admin__head">
         <span>Agregar enlace</span>
@@ -703,28 +669,28 @@ img{display:block;max-width:100%}
       </div>
     </section>
 
-    <!-- ÍNDICE DE MARCAS -->
-    <section id="marcas">
+    <!-- RESULTS -->
+    <section id="results">
       <div class="section-head">
-        <span class="section-head__title">/ MARCAS &nbsp;— &nbsp;ENTRIES</span>
-        <span class="section-head__meta" id="count-label">06 / 06</span>
+        <span class="section-head__title" id="results-title">/ ÍNDICE COMPLETO</span>
+        <span class="section-head__meta" id="results-meta">—</span>
       </div>
-      <div class="index" id="index-container"></div>
+      <div class="results" id="results-container"></div>
     </section>
 
     <!-- FOOTER -->
     <footer class="page-footer" id="contacto">
       <span>© AMG HOSPITALITY GROUP — MMXXV</span>
       <span>MÉXICO · CDMX</span>
-      <span>LINK INDEX / V1.0</span>
+      <span>LINK INDEX / V2.0</span>
     </footer>
 
   </main>
 </div>
 
-<button id="toggle-admin-btn" aria-label="Panel admin"></button>
+<button id="admin-trigger" aria-label="Admin"></button>
 
-<!-- ══ MODAL DELIVERY ══ -->
+<!-- ══ MODAL ══ -->
 <div class="modal" id="deliveryModal">
   <div class="modal__panel">
     <div class="modal__head">
@@ -737,9 +703,9 @@ img{display:block;max-width:100%}
 
 <script>
 (function(){
-  /* ============================================================
+  /* ══════════════════════════════════════════════════════
      DATOS DELIVERY
-     ============================================================ */
+     ══════════════════════════════════════════════════════ */
   const deliveryData = {
     "Chubbies Burger": {
       rappi: [
@@ -768,7 +734,7 @@ img{display:block;max-width:100%}
         {branch:"interlomas", url:"https://www.ubereats.com/mx/store/chubbies-burger-paseo-interlomas/gbdj_of-VB-ahwJTEY_UaA?diningMode=DELIVERY"},
         {branch:"coapa", url:"https://www.ubereats.com/mx/store/chubbies-burger-acoxpa/HS8l0lJgVn-UG8-npykjyQ?diningMode=DELIVERY"},
         {branch:"sta fe", url:"https://www.ubereats.com/mx/store/chubbies-burger-santa-fe/NoI4uztNU3CovEGONC6VLQ?diningMode=DELIVERY"},
-        {branch:"San Ángel", url:"https://www.ubereats.com/mx/store/chubbies-burger-san-angel/axCuLZdAXaOp_QYPCNNUTA?diningMode=DELIVERY"},
+        {branch:"san angel", url:"https://www.ubereats.com/mx/store/chubbies-burger-san-angel/axCuLZdAXaOp_QYPCNNUTA?diningMode=DELIVERY"},
         {branch:"sur", url:"https://www.ubereats.com/mx/store/chubbies-burger-sur/oWjuu1NOUj2I9regzSXEMg?diningMode=DELIVERY"},
         {branch:"claveria", url:"https://www.ubereats.com/mx/store/chubbies-burger-claveria/iJZgFiHgVxmDPVXIoznibQ?diningMode=DELIVERY"},
         {branch:"satelite", url:"https://www.ubereats.com/mx/store/chubbies-burger-satelite/9bjZuQftVc6b43Nl3QVrnQ?diningMode=DELIVERY"},
@@ -781,9 +747,9 @@ img{display:block;max-width:100%}
       {branch:"polanco", url:"https://www.ubereats.com/mx/store/muy-gallito-fried-chicken-polanco/PuLJkHWUVBCQXGTh66JZOw?diningMode=DELIVERY"},
       {branch:"lindavista", url:"https://www.ubereats.com/mx/store/muy-gallito-fried-chicken-lindavista/e003iLaHWLivt3ggZc97MA?diningMode=DELIVERY"},
       {branch:"roma", url:"https://www.ubereats.com/mx/store/muy-gallito-roma/opq4DxOvUy-7h4zGiiRqvA?diningMode=DELIVERY"},
-      {branch:"Acoxpa", url:"https://www.ubereats.com/mx/store/muy-gallito-fried-chicken-acoxpa/oW_WJpQHXCan4uXU_3GVYQ?diningMode=DELIVERY"},
+      {branch:"acoxpa", url:"https://www.ubereats.com/mx/store/muy-gallito-fried-chicken-acoxpa/oW_WJpQHXCan4uXU_3GVYQ?diningMode=DELIVERY"},
       {branch:"sta fe", url:"https://www.ubereats.com/mx/store/muy-gallito-fried-chicken-santa-fe/7LSESRvuV7Wip-_PU1O24g?diningMode=DELIVERY"},
-      {branch:"San Ángel", url:"https://www.ubereats.com/mx/store/muy-gallito-fried-chicken-san-angel/-Na4kFD_VgOM-IAcieDE9w?diningMode=DELIVERY"},
+      {branch:"san angel", url:"https://www.ubereats.com/mx/store/muy-gallito-fried-chicken-san-angel/-Na4kFD_VgOM-IAcieDE9w?diningMode=DELIVERY"},
       {branch:"sur", url:"https://www.ubereats.com/mx/store/muy-gallito-sur/TJ7rsbVjUeWqEclrxV0BPw?diningMode=DELIVERY"},
       {branch:"claveria", url:"https://www.ubereats.com/mx/store/muy-gallito-claveria/Vs60M-n8XiG0YG3vtHvYEA?diningMode=DELIVERY"},
       {branch:"satelite", url:"https://www.ubereats.com/mx/store/muy-gallito-satelite/arl7fOYkXjG-3NdLRoF5Qg?diningMode=DELIVERY"},
@@ -808,9 +774,9 @@ img{display:block;max-width:100%}
     }
   };
 
-  /* ============================================================
+  /* ══════════════════════════════════════════════════════
      MARCAS
-     ============================================================ */
+     ══════════════════════════════════════════════════════ */
   const DEFAULT = [
     {name:"Chubbies Burger",category:"Burgers · Fast Casual", menuUrl:"http://pide.chubbiesburger.mx/", instaUrl:"https://www.instagram.com/chubbies_burger?igsh=bnZlODF4a2txMWl4", thumb:"https://i.postimg.cc/zDt9P1cF/IMG-4348.webp", handle:"@chubbies_burger"},
     {name:"Muy Gallito",category:"Pollo · Street Food", menuUrl:"https://order.foodbot.ai/muygallito/", instaUrl:"https://www.instagram.com/muygallitomx?igsh=ZDczbHZtM2IxOG1w", thumb:"https://i.postimg.cc/JndPKRzz/IMG-4351.webp", handle:"@muygallitomx"},
@@ -821,59 +787,287 @@ img{display:block;max-width:100%}
   ];
 
   let brands = JSON.parse(JSON.stringify(DEFAULT));
-  const container = document.getElementById('index-container');
-  const countLabel = document.getElementById('count-label');
 
-  function pad(n){ return String(n).padStart(2,'0'); }
+  /* ══════════════════════════════════════════════════════
+     UTILIDADES
+     ══════════════════════════════════════════════════════ */
+  const norm = s => (s || '')
+    .toString()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim();
 
-  function render(){
-    container.innerHTML = '';
-    brands.forEach((b, i) => {
-      const row = document.createElement('article');
-      row.className = 'link-row';
+  const escapeHTML = s => String(s || '').replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
 
-      const idx = pad(i + 1);
-      const firstLetter = (b.name || '?').trim().charAt(0).toUpperCase();
+  function highlight(text, terms){
+    const raw = escapeHTML(text);
+    if (!terms.length) return raw;
+    const pattern = terms
+      .filter(t => t.length > 1)
+      .map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+      .join('|');
+    if (!pattern) return raw;
+    return raw.replace(new RegExp(`(${pattern})`, 'gi'), '<mark>$1</mark>');
+  }
 
-      row.innerHTML = `
-        <div class="link-row__index">${idx} / ${firstLetter}</div>
+  /* ══════════════════════════════════════════════════════
+     CONSTRUIR ÍNDICE PLANO (marca + sucursal + app)
+     ══════════════════════════════════════════════════════ */
+  function buildIndex(){
+    const rows = [];
+    brands.forEach(b => {
+      const data = deliveryData[b.name] || {rappi:[], uber:[]};
+      const locs = new Map(); // branch -> {uber, rappi}
 
-        <div class="link-row__body">
-          <h2 class="link-row__name">${b.name}</h2>
-          <div class="link-row__meta">
-            <span><i class="fas fa-tag"></i>${b.category || 'Marca AMG'}</span>
-            ${b.handle ? `<span><i class="fab fa-instagram"></i>${b.handle}</span>` : ''}
-          </div>
-          <div class="link-row__rail">
-            <a class="act act--accent" href="${b.menuUrl}" target="_blank" rel="noopener noreferrer">
-              <i class="fas fa-utensils"></i>Ver menú
-            </a>
-            <a class="act" href="${b.instaUrl || b.menuUrl}" target="_blank" rel="noopener noreferrer">
+      (data.uber || []).forEach(u => {
+        const key = norm(u.branch);
+        if (!locs.has(key)) locs.set(key, {branch: u.branch, uber: null, rappi: null});
+        locs.get(key).uber = u.url;
+      });
+      (data.rappi || []).forEach(r => {
+        const key = norm(r.branch);
+        if (!locs.has(key)) locs.set(key, {branch: r.branch, uber: null, rappi: null});
+        locs.get(key).rappi = r.url;
+      });
+
+      // Entrada marca (menú directo) siempre presente
+      rows.push({
+        type: 'brand',
+        brand: b,
+        brandName: b.name,
+        category: b.category || '',
+        branch: '',
+        uber: null,
+        rappi: null,
+        haystack: [
+          b.name, b.category, b.handle, 'menu', 'directo', 'instagram'
+        ].join(' ').toLowerCase()
+      });
+
+      // Entradas por sucursal
+      locs.forEach(loc => {
+        rows.push({
+          type: 'branch',
+          brand: b,
+          brandName: b.name,
+          category: b.category || '',
+          branch: loc.branch,
+          uber: loc.uber,
+          rappi: loc.rappi,
+          haystack: [
+            b.name, b.category, loc.branch,
+            loc.uber ? 'uber uber eats' : '',
+            loc.rappi ? 'rappi' : ''
+          ].join(' ').toLowerCase()
+        });
+      });
+    });
+    return rows;
+  }
+
+  const INDEX = buildIndex();
+  let currentQuery = '';
+
+  /* ══════════════════════════════════════════════════════
+     RENDER RESULTADOS
+     ══════════════════════════════════════════════════════ */
+  const resultsContainer = document.getElementById('results-container');
+  const resultsTitle = document.getElementById('results-title');
+  const resultsMeta = document.getElementById('results-meta');
+  const searchInput = document.getElementById('search-input');
+  const searchClear = document.getElementById('search-clear');
+
+  function renderResults(){
+    const q = norm(currentQuery);
+    const terms = q.split(/\s+/).filter(Boolean);
+
+    let items = INDEX;
+
+    if (terms.length){
+      items = INDEX.filter(row => terms.every(t => row.haystack.includes(t)));
+    }
+
+    resultsContainer.innerHTML = '';
+
+    if (currentQuery && items.length === 0){
+      resultsContainer.innerHTML = `
+        <div class="empty-state">
+          <i class="fas fa-circle-notch"></i>
+          Sin resultados para "${escapeHTML(currentQuery)}"
+        </div>`;
+      resultsTitle.textContent = '/ SIN RESULTADOS';
+      resultsMeta.textContent = '—';
+      return;
+    }
+
+    if (!currentQuery){
+      resultsTitle.textContent = '/ ÍNDICE COMPLETO';
+      resultsMeta.textContent = `${INDEX.length} ENTRADAS · ${brands.length} MARCAS`;
+    } else {
+      resultsTitle.textContent = `/ RESULTADOS — "${currentQuery.toUpperCase()}"`;
+      resultsMeta.textContent = `${items.length} ENTRADA${items.length === 1 ? '' : 'S'}`;
+    }
+
+    items.slice(0, 80).forEach(row => {
+      const b = row.brand;
+      const hasImg = !!b.thumb;
+
+      const imgHTML = hasImg
+        ? `<img src="${b.thumb}" alt="${escapeHTML(b.name)}" loading="lazy">`
+        : `<i class="fas fa-utensils"></i>`;
+
+      const nameHTML = highlight(b.name, terms);
+
+      const branchHTML = row.branch
+        ? `<span class="result__loc"><i class="fas fa-location-dot"></i>${highlight(row.branch, terms)}</span>`
+        : '';
+
+      const metaParts = [];
+      if (row.category) metaParts.push(`<span><i class="fas fa-tag"></i>${escapeHTML(row.category)}</span>`);
+      if (b.handle) metaParts.push(`<span><i class="fab fa-instagram"></i>${escapeHTML(b.handle)}</span>`);
+      if (row.uber) metaParts.push(`<span><i class="fab fa-uber"></i>Uber Eats</span>`);
+      if (row.rappi) metaParts.push(`<span><i class="fas fa-motorcycle"></i>Rappi</span>`);
+      if (row.type === 'brand') metaParts.push(`<span><i class="fas fa-link"></i>Menú directo</span>`);
+
+      const railParts = [];
+
+      if (row.type === 'brand'){
+        railParts.push(`
+          <a class="act act--accent" href="${b.menuUrl}" target="_blank" rel="noopener noreferrer">
+            <i class="fas fa-utensils"></i>Ver menú
+          </a>
+        `);
+        if (b.instaUrl){
+          railParts.push(`
+            <a class="act" href="${b.instaUrl}" target="_blank" rel="noopener noreferrer">
               <i class="fab fa-instagram"></i>Instagram
             </a>
-            <button class="act apps-btn" data-brand="${b.name}">
-              <i class="fas fa-mobile-alt"></i>Delivery
-            </button>
-          </div>
-        </div>
+          `);
+        }
+        railParts.push(`
+          <button class="act apps-btn" data-brand="${escapeHTML(b.name)}">
+            <i class="fas fa-mobile-alt"></i>Delivery
+          </button>
+        `);
+      } else {
+        if (row.uber){
+          railParts.push(`
+            <a class="act act--accent" href="${row.uber}" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-uber"></i>Uber Eats
+            </a>
+          `);
+        }
+        if (row.rappi){
+          railParts.push(`
+            <a class="act${row.uber ? '' : ' act--accent'}" href="${row.rappi}" target="_blank" rel="noopener noreferrer">
+              <i class="fas fa-motorcycle"></i>Rappi
+            </a>
+          `);
+        }
+        railParts.push(`
+          <button class="act apps-btn" data-brand="${escapeHTML(b.name)}">
+            <i class="fas fa-list"></i>Todas las sucursales
+          </button>
+        `);
+      }
 
-        <a class="link-row__arrow" href="${b.menuUrl}" target="_blank" rel="noopener noreferrer" aria-label="Abrir ${b.name}">
-          <i class="fas fa-arrow-up-right-from-square"></i>
-        </a>
+      const rowEl = document.createElement('article');
+      rowEl.className = 'result';
+      rowEl.innerHTML = `
+        <div class="result__img">${imgHTML}</div>
+        <div class="result__body">
+          <div class="result__top">
+            <h2 class="result__name">${nameHTML}</h2>
+            ${branchHTML}
+          </div>
+          <div class="result__meta">${metaParts.join('')}</div>
+          <div class="result__rail">${railParts.join('')}</div>
+        </div>
       `;
-      container.appendChild(row);
+      resultsContainer.appendChild(rowEl);
     });
 
-    countLabel.textContent = `${pad(brands.length)} / ${pad(brands.length)}`;
+    if (items.length > 80){
+      const more = document.createElement('div');
+      more.className = 'empty-state';
+      more.innerHTML = `<i class="fas fa-ellipsis"></i>+${items.length - 80} resultados adicionales — refina tu búsqueda`;
+      resultsContainer.appendChild(more);
+    }
 
     document.querySelectorAll('.apps-btn').forEach(btn => {
       btn.addEventListener('click', () => openDeliveryModal(btn.getAttribute('data-brand')));
     });
   }
 
-  /* ============================================================
+  /* ══════════════════════════════════════════════════════
+     SEARCH INPUT
+     ══════════════════════════════════════════════════════ */
+  let searchTimer;
+  searchInput.addEventListener('input', () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+      currentQuery = searchInput.value;
+      searchClear.classList.toggle('visible', currentQuery.length > 0);
+      renderResults();
+    }, 90);
+  });
+
+  searchClear.addEventListener('click', () => {
+    searchInput.value = '';
+    currentQuery = '';
+    searchClear.classList.remove('visible');
+    renderResults();
+    searchInput.focus();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === '/' && document.activeElement !== searchInput){
+      e.preventDefault();
+      searchInput.focus();
+    }
+  });
+
+  /* ══════════════════════════════════════════════════════
+     ATAJOS (fill search)
+     ══════════════════════════════════════════════════════ */
+  document.querySelectorAll('[data-fill]').forEach(el => {
+    el.addEventListener('click', () => {
+      searchInput.value = el.getAttribute('data-fill');
+      currentQuery = searchInput.value;
+      searchClear.classList.add('visible');
+      renderResults();
+      searchInput.focus();
+      document.getElementById('search-section').scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+
+  /* ══════════════════════════════════════════════════════
+     SIDEBAR TOGGLE
+     ══════════════════════════════════════════════════════ */
+  const shell = document.getElementById('shell');
+  const sidebarToggle = document.getElementById('sidebar-toggle');
+  const toggleIcon = document.getElementById('toggle-icon');
+
+  let collapsed = localStorage.getItem('amg-sidebar-collapsed') === '1';
+  if (collapsed) applyCollapse(true);
+
+  sidebarToggle.addEventListener('click', () => {
+    collapsed = !collapsed;
+    applyCollapse(collapsed);
+    localStorage.setItem('amg-sidebar-collapsed', collapsed ? '1' : '0');
+  });
+
+  function applyCollapse(state){
+    shell.classList.toggle('collapsed', state);
+    toggleIcon.className = state ? 'fas fa-angle-right' : 'fas fa-angle-left';
+  }
+
+  /* ══════════════════════════════════════════════════════
      MODAL DELIVERY
-     ============================================================ */
+     ══════════════════════════════════════════════════════ */
   const modal = document.getElementById('deliveryModal');
   const modalTitle = document.getElementById('modalBrandTitle');
   const modalBody = document.getElementById('modalBodyContent');
@@ -884,11 +1078,10 @@ img{display:block;max-width:100%}
     const rappiList = data.rappi || [];
     const uberList  = data.uber  || [];
 
-    modalTitle.innerHTML = `<b>${brandName}</b> · DELIVERY`;
+    modalTitle.innerHTML = `<b>${escapeHTML(brandName)}</b> · DELIVERY`;
 
     let html = '';
 
-    /* UBER */
     html += `<div class="cat">
       <div class="cat__head"><i class="fab fa-uber"></i>Uber Eats</div>`;
     if (uberList.length === 0){
@@ -896,14 +1089,13 @@ img{display:block;max-width:100%}
     } else {
       uberList.forEach(item => {
         html += `<a class="row-link" href="${item.url}" target="_blank" rel="noopener noreferrer">
-          <span class="row-link__b"><i class="fas fa-location-dot"></i>${item.branch}</span>
+          <span class="row-link__b"><i class="fas fa-location-dot"></i>${escapeHTML(item.branch)}</span>
           <span class="row-link__go">Pedir →</span>
         </a>`;
       });
     }
     html += `</div>`;
 
-    /* RAPPI */
     html += `<div class="cat">
       <div class="cat__head"><i class="fas fa-motorcycle"></i>Rappi</div>`;
     if (rappiList.length === 0){
@@ -911,14 +1103,13 @@ img{display:block;max-width:100%}
     } else {
       rappiList.forEach(item => {
         html += `<a class="row-link" href="${item.url}" target="_blank" rel="noopener noreferrer">
-          <span class="row-link__b"><i class="fas fa-location-dot"></i>${item.branch}</span>
+          <span class="row-link__b"><i class="fas fa-location-dot"></i>${escapeHTML(item.branch)}</span>
           <span class="row-link__go">Pedir →</span>
         </a>`;
       });
     }
     html += `</div>`;
 
-    /* DIDI */
     html += `<div class="cat">
       <div class="cat__head"><i class="fas fa-car"></i>DiDi Food</div>
       <div class="empty">Sin enlaces disponibles</div>
@@ -939,22 +1130,18 @@ img{display:block;max-width:100%}
     if (e.key === 'Escape' && modal.classList.contains('active')) closeModalFunc();
   });
 
-  /* ============================================================
-     ADMIN
-     ============================================================ */
+  /* ══════════════════════════════════════════════════════
+     ADMIN (oculto — esquina inferior izquierda)
+     ══════════════════════════════════════════════════════ */
   const adminPanel = document.getElementById('admin-panel');
+  const adminTrigger = document.getElementById('admin-trigger');
 
-  function toggleAdmin(){
+  adminTrigger.addEventListener('click', e => {
+    e.stopPropagation();
     adminPanel.classList.toggle('visible');
     if (adminPanel.classList.contains('visible')){
-      adminPanel.scrollIntoView({behavior:'smooth', block:'start'});
+      adminPanel.scrollIntoView({behavior:'smooth', block:'center'});
     }
-  }
-
-  document.getElementById('open-admin').addEventListener('click', toggleAdmin);
-  document.getElementById('toggle-admin-btn').addEventListener('click', e => {
-    e.stopPropagation();
-    toggleAdmin();
   });
 
   document.getElementById('add-link-btn').addEventListener('click', () => {
@@ -964,7 +1151,8 @@ img{display:block;max-width:100%}
     try { new URL(url); } catch { alert('URL no válida'); return; }
 
     brands.push({ name, category:'', menuUrl:url, instaUrl:url, thumb:'', handle:'' });
-    render();
+    // Rebuild index
+    rebuildAndRender();
     document.getElementById('link-title').value = '';
     document.getElementById('link-url').value = '';
   });
@@ -972,11 +1160,20 @@ img{display:block;max-width:100%}
   document.getElementById('reset-links-btn').addEventListener('click', () => {
     if (confirm('¿Restaurar marcas originales?')) {
       brands = JSON.parse(JSON.stringify(DEFAULT));
-      render();
+      rebuildAndRender();
     }
   });
 
-  render();
+  function rebuildAndRender(){
+    INDEX.length = 0;
+    buildIndex().forEach(r => INDEX.push(r));
+    renderResults();
+  }
+
+  /* ══════════════════════════════════════════════════════
+     INIT
+     ══════════════════════════════════════════════════════ */
+  renderResults();
 })();
 </script>
 </body>
